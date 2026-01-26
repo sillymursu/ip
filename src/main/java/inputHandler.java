@@ -74,11 +74,21 @@ public class inputHandler {
             int lineNum = Integer.parseInt(input[1]) - 1;
             Task t = listTasks.get(lineNum);
             if (input[0].equals("mark")) {
-                t.mark();
-                System.out.println(longLine + "\n\n" + LeGoatStr + "Easy work. Task completed!");
+                if (t.taskStatus.equals("X")) {
+                    System.err.println(longLine + "\n\n" + LeGoatStr + "Time Paradox? Task is already done!" + "\n\n" + longLine);
+                    return;
+                } else {
+                    t.mark();
+                    System.out.println(longLine + "\n\n" + LeGoatStr + "Easy work. Task completed!");
+                }
             } else {
-                t.unmark();
-                System.out.println(longLine + "\n\n" + LeGoatStr + "Wah. Task uncompleted!");
+                if (t.taskStatus.equals(" ")) {
+                    System.err.println(longLine + "\n\n" + LeGoatStr + "Time Paradox? Task is not yet done!" + "\n\n" + longLine);
+                    return;
+                } else {
+                    t.unmark();
+                    System.out.println(longLine + "\n\n" + LeGoatStr + "Electric Boogaloo. Task uncompleted!");
+                }
             }
             String type = t.taskType;
             switch (type) {
@@ -110,9 +120,13 @@ public class inputHandler {
                 tdName.append(input[i]);
             }
         String taskName = tdName.toString();
-        Task t = new Task(taskName, "T", " ");
-        listTasks.add(t);
-        System.out.println(longLine + "\n\n" + "Added Task:\n   " + t.toString() + "\n\n" + longLine);
+        if (taskName.isEmpty()) {
+            System.err.println(longLine + "\n\n" + LeGoatStr + "The correct format is: \"todo <eventName>\"!" + "\n\n" + longLine);
+        } else {
+            Task t = new Task(taskName, "T", " ");
+            listTasks.add(t);
+            System.out.println(longLine + "\n\n" + "Added Task:\n   " + t.toString() + "\n\n" + longLine);
+        }
     }
 
     public void addDeadline(String[] input) {
@@ -136,9 +150,13 @@ public class inputHandler {
         }
         String taskName = dName.toString();
         String taskDeadline = dDate.toString();
-        Deadline d = new Deadline(taskName, "D", " ", taskDeadline);
-        listTasks.add(d);
-        System.out.println(longLine + "\n\n" + "Added Task:\n   " + d.toString() + "\n\n" + longLine);
+        if (taskName.isEmpty() || taskDeadline.isEmpty()) {
+            System.err.println(longLine + "\n\n" + LeGoatStr + "The correct format is: \"deadline <eventName> /by <deadline>\"!" + "\n\n" + longLine);
+        } else {
+            Deadline d = new Deadline(taskName, "D", " ", taskDeadline);
+            listTasks.add(d);
+            System.out.println(longLine + "\n\n" + "Added Task:\n   " + d.toString() + "\n\n" + longLine);
+        }
     }
 
     public void addEvent(String[] input) {
@@ -175,8 +193,12 @@ public class inputHandler {
         String taskName = eName.toString();
         String taskBegin = eFrom.toString();
         String taskEnd = eTo.toString();
-        Event e = new Event(taskName, "E", " ", taskBegin, taskEnd);
-        listTasks.add(e);
-        System.out.println(longLine + "\n\n" + "Added Task:\n   " + e.toString() + "\n\n" + longLine);
+        if (taskName.isEmpty() || taskBegin.isEmpty() || taskEnd.isEmpty()) {
+            System.err.println(longLine + "\n\n" + LeGoatStr + "The correct format is: \"event <eventName> /from <begin> /to <end>\"!" + "\n\n" + longLine);
+        } else {
+            Event e = new Event(taskName, "E", " ", taskBegin, taskEnd);
+            listTasks.add(e);
+            System.out.println(longLine + "\n\n" + "Added Task:\n   " + e.toString() + "\n\n" + longLine);
+        }
     }
 }
