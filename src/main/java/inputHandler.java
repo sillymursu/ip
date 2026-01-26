@@ -30,6 +30,7 @@ public class inputHandler {
             case "todo" -> this.addToDo(input);
             case "deadline" -> this.addDeadline(input);
             case "event" -> this.addEvent(input);
+            case "delete" -> this.delete(input);
             default -> this.notACommand();
         }
     }
@@ -199,6 +200,17 @@ public class inputHandler {
             Event e = new Event(taskName, "E", " ", taskBegin, taskEnd);
             listTasks.add(e);
             System.out.println(longLine + "\n\n" + "Added Task:\n   " + e.toString() + "\n\n" + longLine);
+        }
+    }
+
+    public void delete(String[] input) {
+        try {
+            int removeTaskAtIDX = Integer.parseInt(input[1]) - 1;
+            listTasks.remove(removeTaskAtIDX);
+            System.out.println(longLine + "\n\n" + LeGoatStr + "Task deleted!!" + "\n" +
+            LeGoatStr + "You have " + listTasks.size() + " Tasks left!!" + "\n\n" + longLine);
+        } catch (NumberFormatException | IndexOutOfBoundsException e) {
+            System.err.println(longLine + "\n\n" + LeGoatStr + "The correct format is: \"delete < valid line item number>\"!" + "\n\n" + longLine);
         }
     }
 }
