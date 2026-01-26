@@ -27,8 +27,15 @@ public class inputHandler {
             case "bye" -> this.bye();
             case "list" -> this.list();
             case "mark", "unmark" -> this.markUnmark(input);
-            default -> this.add(input);
+            case "todo" -> this.addToDo(input);
+            case "deadline" -> this.addDeadline(input);
+            case "event" -> this.addEvent(input);
+            default -> this.notACommand();
         }
+    }
+
+    public void notACommand() {
+        System.err.println(longLine + "\n\n" + LeGoatStr + "Not something I can help with, brochacho." + "\n\n" + longLine);
     }
 
     public void bye() {
@@ -42,8 +49,21 @@ public class inputHandler {
             System.out.println(longLine + "\n");
                 for (int i = 0; i < listTasks.size(); i++) {
                     int lineNumber = i + 1;
-                    Task t = listTasks.get(i);
-                    System.out.println(lineNumber + ". " + "[" + t.markStatus + "]" + t.taskName);
+                    String type = listTasks.get(i).taskType;
+                    switch (type) {
+                        case "D" -> {
+                            Deadline d = (Deadline) listTasks.get(i);
+                            System.out.println(lineNumber + ". " + d.toString());
+                        }
+                        case "E" -> {
+                            Event e = (Event) listTasks.get(i);
+                            System.out.println(lineNumber + ". " + e.toString());
+                        }
+                        default -> {
+                            Task t = listTasks.get(i);
+                            System.out.println(lineNumber + ". " + t.toString());
+                        }
+                    }
                 }
             System.out.println("\n" + longLine);
         }
@@ -60,7 +80,22 @@ public class inputHandler {
                 t.unmark();
                 System.out.println(longLine + "\n\n" + LeGoatStr + "Wah. Task uncompleted!");
             }
-            System.out.println("   [" + t.markStatus + "]" + t.taskName + "\n\n" + longLine);
+            String type = t.taskType;
+            switch (type) {
+                case "D" -> {
+                    Deadline d = (Deadline) listTasks.get(lineNum);
+                    System.out.println("   " + d.toString() + "\n\n" + longLine);
+                    break;
+                }
+                case "E" -> {
+                    Event e = (Event) listTasks.get(lineNum);
+                    System.out.println("   " + e.toString() + "\n\n" + longLine);
+                    break;
+                }
+                default -> {
+                    System.out.println("   " + t.toString() + "\n\n" + longLine);
+                }
+            }
         } catch (NumberFormatException e) {
             System.err.println(longLine + "\n\n" + LeGoatStr + "Second Argument is not a number!!" + "\n\n" + longLine);
         } catch (IndexOutOfBoundsException e) {
@@ -68,15 +103,80 @@ public class inputHandler {
         }
     }
 
-    public void add(String[] input) {
-        StringBuilder added = new StringBuilder();
-            for (String s : input) {
-                added.append(" ");
-                added.append(s);
+    public void addToDo(String[] input) {
+        StringBuilder tdName = new StringBuilder();
+            for (int i = 1; i < input.length; i++) {
+                tdName.append(" ");
+                tdName.append(input[i]);
             }
-        String taskName = added.toString();
-        Task t = new Task(taskName, " ");
+        String taskName = tdName.toString();
+        Task t = new Task(taskName, "T", " ");
         listTasks.add(t);
-        System.out.println(longLine + "\n\n" + "Added:" + taskName + "\n\n" + longLine);
+        System.out.println(longLine + "\n\n" + "Added Task:\n   " + t.toString() + "\n\n" + longLine);
+    }
+
+    public void addDeadline(String[] input) {
+        StringBuilder dName = new StringBuilder();
+        StringBuilder dDate = new StringBuilder();
+        int b = 1;
+        for (int i = 1; i < input.length; i++) {
+            String deadlineDate = input[i];
+            if (deadlineDate.equals("/by")) {
+                b++;
+                break;
+            } else {
+                b++;
+                dName.append(" ");
+                dName.append(input[i]);
+            }
+        }
+        for (int j = b; j < input.length; j++) {
+            dDate.append(" ");
+            dDate.append(input[j]);
+        }
+        String taskName = dName.toString();
+        String taskDeadline = dDate.toString();
+        Deadline d = new Deadline(taskName, "D", " ", taskDeadline);
+        listTasks.add(d);
+        System.out.println(longLine + "\n\n" + "Added Task:\n   " + d.toString() + "\n\n" + longLine);
+    }
+
+    public void addEvent(String[] input) {
+        StringBuilder eName = new StringBuilder();
+        StringBuilder eFrom = new StringBuilder();
+        StringBuilder eTo = new StringBuilder();
+        int b = 1;
+        for (int i = 1; i < input.length; i++) {
+            String deadlineDate = input[i];
+            if (deadlineDate.equals("/from")) {
+                b++;
+                break;
+            } else {
+                b++;
+                eName.append(" ");
+                eName.append(input[i]);
+            }
+        }
+        for (int j = b; j < input.length; j++) {
+            String deadlineDate = input[j];
+            if (deadlineDate.equals("/to")) {
+                b++;
+                break;
+            } else {
+                b++;
+                eFrom.append(" ");
+                eFrom.append(input[j]);
+            }
+        }
+        for (int y = b; y < input.length; y++) {
+            eTo.append(" ");
+            eTo.append(input[y]);
+        }
+        String taskName = eName.toString();
+        String taskBegin = eFrom.toString();
+        String taskEnd = eTo.toString();
+        Event e = new Event(taskName, "E", " ", taskBegin, taskEnd);
+        listTasks.add(e);
+        System.out.println(longLine + "\n\n" + "Added Task:\n   " + e.toString() + "\n\n" + longLine);
     }
 }

@@ -1,17 +1,25 @@
 public class Task {
     String taskName;
-    String markStatus;
+    String taskType;
+    String taskStatus;
 
-    public Task(String taskName, String markStatus) {
+    public Task(String taskName, String taskType, String taskStatus) {
         this.taskName = taskName;
-        this.markStatus = markStatus;
+        this.taskType = taskType;
+        this.taskStatus = taskStatus;
     }
 
     public void mark() {
-        this.markStatus = "X";
+        this.taskStatus = "X";
     }
 
     public void unmark() {
-        this.markStatus = " ";
+        this.taskStatus = " ";
+    }
+
+    @Override
+    public String toString() {
+        String s = "[" + this.taskType + "][" + this.taskStatus + "]" + this.taskName;
+        return s;
     }
 }
