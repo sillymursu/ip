@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 public class LeGoat {
     public static void main(String[] args) {
         String logo = """
@@ -10,21 +8,12 @@ public class LeGoat {
                       | |___ |_|_   \\ \\_| | | \\_/ | | |   | |   | |   _
                       |____/ |___|   \\___/  \\_____/ |_|   |_|   |_|  |_|
                       """;
-        String longLine = "\n--------------------------------------------------\n";
+        String longLine = "--------------------------------------------------";
         String byeMsg = "LeGoat logging off!";
-        System.out.println("Hello from\n" + logo + "\n" + "What can I do for you?" + longLine);
-        @SuppressWarnings("ConvertToTryWithResources")
-        Scanner sc = new Scanner(System.in);
-        int byeFlag = 0;
-        while (byeFlag == 0) {
-            String input = sc.nextLine();
-            if (!input.equals("bye")) {
-                System.out.println(longLine + input + longLine);
-            } else {
-                byeFlag = 1;
-            }
-        }
-        System.out.println(longLine + byeMsg + longLine);
-        sc.close();
+        String LeGoatStr = "LeGoat: ";
+        System.out.println("Hello from\n" + logo + "\n" + LeGoatStr + "What can I do for you?" + "\n" + longLine);
+        inputHandler handler = new inputHandler();
+        handler.start();
+        System.out.println(longLine + "\n\n" + LeGoatStr + byeMsg + "\n\n" + longLine);
     }
 }
