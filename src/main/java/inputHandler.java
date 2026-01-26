@@ -23,43 +23,60 @@ public class inputHandler {
     }
 
     public void handleInput(String[] input) {
-        if (input[0].equals("bye")) { // bye
-            this.byeFlag = 1;
-        } else if (input[0].equals("list") && !listTasks.isEmpty()){ // list
+        switch (input[0]) {
+            case "bye" -> this.bye();
+            case "list" -> this.list();
+            case "mark", "unmark" -> this.markUnmark(input);
+            default -> this.add(input);
+        }
+    }
+
+    public void bye() {
+        this.byeFlag = 1;
+    }
+
+    public void list() {
+        if (listTasks.isEmpty()) {
+            System.err.println(longLine + "\n\n" + LeGoatStr + "The list is currently empty! Add some Tasks first!!" + "\n\n" + longLine);
+        } else {
             System.out.println(longLine + "\n");
-            for (int i = 0; i < listTasks.size(); i++) {
-                int lineNumber = i + 1;
-                Task t = listTasks.get(i);
-                System.out.println(lineNumber + ". " + "[" + t.markStatus + "]" + t.taskName);
-            }
-            System.out.println("\n" + longLine);
-        } else if (input[0].equals("mark") || input[0].equals("unmark")) { // mark & unmark
-            try {
-                int lineNum = Integer.parseInt(input[1]);
-                Task t = listTasks.get(lineNum);
-                if (input[0].equals("mark")) {
-                    t.mark();
-                    System.out.println(longLine + "\n\n" + LeGoatStr + "Easy work. Task completed!");
-                } else {
-                    t.unmark();
-                    System.out.println(longLine + "\n\n" + LeGoatStr + "Wah. Task uncompleted!");
+                for (int i = 0; i < listTasks.size(); i++) {
+                    int lineNumber = i + 1;
+                    Task t = listTasks.get(i);
+                    System.out.println(lineNumber + ". " + "[" + t.markStatus + "]" + t.taskName);
                 }
-                System.out.println("   [" + t.markStatus + "]" + t.taskName + "\n\n" + longLine);
-            } catch (NumberFormatException e) {
-                System.err.println(longLine + "\n\n" + LeGoatStr + "Second Argument is not a number!!" + "\n\n" + longLine);
-            } catch (IndexOutOfBoundsException e) {
-                System.err.println(longLine + "\n\n" + LeGoatStr + "Second Argument is not a valid number!!" + "\n\n" + longLine);
+            System.out.println("\n" + longLine);
+        }
+    }
+
+    public void markUnmark(String[] input) {
+        try {
+            int lineNum = Integer.parseInt(input[1]) - 1;
+            Task t = listTasks.get(lineNum);
+            if (input[0].equals("mark")) {
+                t.mark();
+                System.out.println(longLine + "\n\n" + LeGoatStr + "Easy work. Task completed!");
+            } else {
+                t.unmark();
+                System.out.println(longLine + "\n\n" + LeGoatStr + "Wah. Task uncompleted!");
             }
-        } else { // add
-            StringBuilder added = new StringBuilder();
+            System.out.println("   [" + t.markStatus + "]" + t.taskName + "\n\n" + longLine);
+        } catch (NumberFormatException e) {
+            System.err.println(longLine + "\n\n" + LeGoatStr + "Second Argument is not a number!!" + "\n\n" + longLine);
+        } catch (IndexOutOfBoundsException e) {
+            System.err.println(longLine + "\n\n" + LeGoatStr + "Second Argument is not a valid number!!" + "\n\n" + longLine);
+        }
+    }
+
+    public void add(String[] input) {
+        StringBuilder added = new StringBuilder();
             for (String s : input) {
                 added.append(" ");
                 added.append(s);
             }
-            String taskName = added.toString();
-            Task t = new Task(taskName, " ");
-            listTasks.add(t);
-            System.out.println(longLine + "\n\n" + "Added:" + taskName + "\n\n" + longLine);
-        }
+        String taskName = added.toString();
+        Task t = new Task(taskName, " ");
+        listTasks.add(t);
+        System.out.println(longLine + "\n\n" + "Added:" + taskName + "\n\n" + longLine);
     }
 }
