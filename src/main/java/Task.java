@@ -19,7 +19,7 @@ public class Task {
 
     @Override
     public String toString() {
-        String s = "[" + this.taskType + "][" + this.taskStatus + "]" + this.taskName;
+        String s = "[" + this.taskType + "][" + this.taskStatus + "] " + this.taskName;
         return s;
     }
 }

@@ -10,8 +10,8 @@ public class Event extends Task {
 
     @Override
     public String toString() {
-        String s = "[" + this.taskType + "][" + this.taskStatus + "]" + this.taskName + 
-        " (from:" + this.begin + " | to:" + this.end + ")";
+        String s = "[" + this.taskType + "][" + this.taskStatus + "] " + this.taskName + 
+        " (from: " + this.begin + " | to: " + this.end + ")";
         return s;
     }
 }
