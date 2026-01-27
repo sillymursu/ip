@@ -1,3 +1,7 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 public class inputHandler {
@@ -5,6 +9,7 @@ public class inputHandler {
     String LeGoatStr = "LeGoat: ";
     int byeFlag;
     ArrayList<Task> listTasks;
+    File savePath;
 
     public inputHandler() {
         this.byeFlag = 0;
@@ -14,6 +19,7 @@ public class inputHandler {
     public void start() {
         @SuppressWarnings("ConvertToTryWithResources")
         Scanner sc = new Scanner(System.in);
+        this.loadData();
         while (this.byeFlag != 1) {
             String inputRaw = sc.nextLine();
             String[] input = inputRaw.split(" ");
@@ -95,16 +101,22 @@ public class inputHandler {
             switch (type) {
                 case "D" -> {
                     Deadline d = (Deadline) listTasks.get(lineNum);
-                    System.out.println("   " + d.toString() + "\n\n" + longLine);
+                    System.out.println("   " + d.toString());
+                    this.saveData();
+                    System.out.println("\n" + longLine);
                     break;
                 }
                 case "E" -> {
                     Event e = (Event) listTasks.get(lineNum);
-                    System.out.println("   " + e.toString() + "\n\n" + longLine);
+                    System.out.println("   " + e.toString());
+                    this.saveData();
+                    System.out.println("\n" + longLine);
                     break;
                 }
                 default -> {
-                    System.out.println("   " + t.toString() + "\n\n" + longLine);
+                    System.out.println("   " + t.toString());
+                    this.saveData();
+                    System.out.println("\n" + longLine);
                 }
             }
         } catch (NumberFormatException e) {
@@ -120,13 +132,15 @@ public class inputHandler {
                 tdName.append(" ");
                 tdName.append(input[i]);
             }
-        String taskName = tdName.toString();
+        String taskName = tdName.toString().replaceFirst(" ","");
         if (taskName.isEmpty()) {
             System.err.println(longLine + "\n\n" + LeGoatStr + "The correct format is: \"todo <eventName>\"!" + "\n\n" + longLine);
         } else {
             Task t = new Task(taskName, "T", " ");
             listTasks.add(t);
-            System.out.println(longLine + "\n\n" + "Added Task:\n   " + t.toString() + "\n\n" + longLine);
+            System.out.println(longLine + "\n\n" + "Added Task:\n   " + t.toString());
+            this.saveData();
+            System.out.println("\n" + longLine);
         }
     }
 
@@ -149,14 +163,16 @@ public class inputHandler {
             dDate.append(" ");
             dDate.append(input[j]);
         }
-        String taskName = dName.toString();
-        String taskDeadline = dDate.toString();
+        String taskName = dName.toString().replaceFirst(" ","");
+        String taskDeadline = dDate.toString().replaceFirst(" ","");
         if (taskName.isEmpty() || taskDeadline.isEmpty()) {
             System.err.println(longLine + "\n\n" + LeGoatStr + "The correct format is: \"deadline <eventName> /by <deadline>\"!" + "\n\n" + longLine);
         } else {
             Deadline d = new Deadline(taskName, "D", " ", taskDeadline);
             listTasks.add(d);
-            System.out.println(longLine + "\n\n" + "Added Task:\n   " + d.toString() + "\n\n" + longLine);
+            System.out.println(longLine + "\n\n" + "Added Deadline:\n   " + d.toString());
+            this.saveData();
+            System.out.println("\n" + longLine);
         }
     }
 
@@ -191,15 +207,17 @@ public class inputHandler {
             eTo.append(" ");
             eTo.append(input[y]);
         }
-        String taskName = eName.toString();
-        String taskBegin = eFrom.toString();
-        String taskEnd = eTo.toString();
+        String taskName = eName.toString().replaceFirst(" ","");
+        String taskBegin = eFrom.toString().replaceFirst(" ","");
+        String taskEnd = eTo.toString().replaceFirst(" ","");
         if (taskName.isEmpty() || taskBegin.isEmpty() || taskEnd.isEmpty()) {
             System.err.println(longLine + "\n\n" + LeGoatStr + "The correct format is: \"event <eventName> /from <begin> /to <end>\"!" + "\n\n" + longLine);
         } else {
             Event e = new Event(taskName, "E", " ", taskBegin, taskEnd);
             listTasks.add(e);
-            System.out.println(longLine + "\n\n" + "Added Task:\n   " + e.toString() + "\n\n" + longLine);
+            System.out.println(longLine + "\n\n" + "Added Event:\n   " + e.toString());
+            this.saveData();
+            System.out.println("\n" + longLine);
         }
     }
 
@@ -208,9 +226,70 @@ public class inputHandler {
             int removeTaskAtIDX = Integer.parseInt(input[1]) - 1;
             listTasks.remove(removeTaskAtIDX);
             System.out.println(longLine + "\n\n" + LeGoatStr + "Task deleted!!" + "\n" +
-            LeGoatStr + "You have " + listTasks.size() + " Tasks left!!" + "\n\n" + longLine);
+            LeGoatStr + "You have " + listTasks.size() + " Tasks left!!");
+            this.saveData();
+            System.out.println("\n" + longLine);
         } catch (NumberFormatException | IndexOutOfBoundsException e) {
             System.err.println(longLine + "\n\n" + LeGoatStr + "The correct format is: \"delete < valid line item number>\"!" + "\n\n" + longLine);
+        }
+    }
+
+    public void saveData() {
+        try {
+            this.savePath = new File("src/data/LeGoatData.txt");
+            this.savePath.getParentFile().mkdirs();
+            try (FileWriter writer = new FileWriter(savePath)) {
+                for (Task t : listTasks) {
+                    String taskType = t.taskType;
+                    switch (taskType) {
+                        case "D" -> {
+                            Deadline d = (Deadline) t;
+                            writer.write(d.taskType + " | " + d.taskStatus + " | " + d.taskName + " | " + d.deadline + "\n");
+                        }
+                        case "E" -> {
+                            Event e = (Event) t;
+                            writer.write(e.taskType + " | " + e.taskStatus + " | " + e.taskName + " | " + e.begin+ " | " + e.end + "\n");
+                        }
+                        default -> {
+                            writer.write(t.taskType + " | " + t.taskStatus + " | " + t.taskName + "\n");
+                        }
+                    }
+                }
+                System.out.println("\nSaved successfully!!!");
+            }
+        } catch (IOException e) {
+            System.err.println(longLine + "\n\n" + LeGoatStr + "Sum ting wong..." + "\n\n" + longLine);
+        }
+    }
+
+    public void loadData() {
+        try {
+            this.savePath = new File("src/data/LeGoatData.txt");
+            if (!savePath.exists()) {
+            } else {
+                try (Scanner dataReader = new Scanner(this.savePath)) {
+                    while (dataReader.hasNextLine()) {
+                        String[] lineItems = dataReader.nextLine().split(" \\| ");
+                        String type = lineItems[0];
+                        switch (type) {
+                            case "D" -> {
+                                Deadline d = new Deadline(lineItems[2], "D", lineItems[1], lineItems[3]);
+                                listTasks.add(d);
+                            }
+                            case "E" -> {
+                                Event e = new Event(lineItems[2], "E", lineItems[1], lineItems[3], lineItems[4]);
+                                listTasks.add(e);
+                            }
+                            case "T" -> {
+                                Task t = new Task(lineItems[2], "T", lineItems[1]);
+                                listTasks.add(t);
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (FileNotFoundException e) {
+            System.err.println(longLine + "\n\n" + LeGoatStr + "Sum ting wong..." + "\n\n" + longLine);
         }
     }
 }
