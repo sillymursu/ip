@@ -3,6 +3,15 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class ui {
+    String logo = """
+                       _      ___    ____    _____     ___    _______
+                      | |    |  _|  / ___\\  / / \\ \\   / _ \\  |__   __|
+                      | |    | |_  / / ___  | | | |  / /_\\ \\    | |
+                      | |    |  _| \\ \\|_  \\ | | | | / /   \\ \\   | |
+                      | |___ |_|_   \\ \\_| | | \\_/ | | |   | |   | |   _
+                      |____/ |___|   \\___/  \\_____/ |_|   |_|   |_|  |_|
+                      """;
+    String byeMsg = "LeGoat logging off!";
     String longLine = "--------------------------------------------------";
     String LeGoatStr = "LeGoat: ";
     String deadlineTimeFormatReminder = """

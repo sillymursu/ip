@@ -8,7 +8,8 @@ public class Deadline extends Task {
 
     @Override
     public String toString() {
-        String s = "[" + this.taskType + "][" + this.taskStatus + "] " + this.taskName + " (by: " + this.deadline + ")";
+        String s = "[" + this.taskType + "][" + this.taskStatus + "] " + this.taskName +
+            " (by: " + this.deadline + ")";
         return s;
     }
 }
