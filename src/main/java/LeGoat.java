@@ -12,8 +12,8 @@ public class LeGoat {
         String byeMsg = "LeGoat logging off!";
         String LeGoatStr = "LeGoat: ";
         System.out.println("Hello from\n" + logo + "\n" + LeGoatStr + "What can I do for you?" + "\n" + longLine);
-        inputHandler handler = new inputHandler();
-        handler.start();
+        inputHandler handle = new inputHandler();
+        handle.start();
         System.out.println(longLine + "\n\n" + LeGoatStr + byeMsg + "\n\n" + longLine);
     }
 }
