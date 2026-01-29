@@ -20,19 +20,23 @@ public class taskHandler {
             Task t = listTasks.get(lineNum);
             if (input[0].equals("mark")) {
                 if (t.taskStatus.equals("X")) {
-                    System.err.println(format.longLine + "\n\n" + format.LeGoatStr + "Time Paradox? Task is already done!" + "\n\n" + format.longLine);
+                    System.err.println(format.longLine + "\n\n" + format.LeGoatStr +
+                        "Time Paradox? Task is already done!" + "\n\n" + format.longLine);
                     return;
                 } else {
                     t.mark();
-                    System.out.println(format.longLine + "\n\n" + format.LeGoatStr + "Easy work. Task completed!");
+                    System.out.println(format.longLine + "\n\n" + format.LeGoatStr +
+                        "Easy work. Task completed!");
                 }
             } else {
                 if (t.taskStatus.equals(" ")) {
-                    System.err.println(format.longLine + "\n\n" + format.LeGoatStr + "Time Paradox? Task is not yet done!" + "\n\n" + format.longLine);
+                    System.err.println(format.longLine + "\n\n" + format.LeGoatStr +
+                        "Time Paradox? Task is not yet done!" + "\n\n" + format.longLine);
                     return;
                 } else {
                     t.unmark();
-                    System.out.println(format.longLine + "\n\n" + format.LeGoatStr + "Electric Boogaloo. Task uncompleted!");
+                    System.out.println(format.longLine + "\n\n" + format.LeGoatStr +
+                        "Electric Boogaloo. Task uncompleted!");
                 }
             }
             String type = t.taskType;
@@ -58,9 +62,11 @@ public class taskHandler {
                 }
             }
         } catch (NumberFormatException e) {
-            System.err.println(format.longLine + "\n\n" + format.LeGoatStr + "Second Argument is not a number!!" + "\n\n" + format.longLine);
+            System.err.println(format.longLine + "\n\n" + format.LeGoatStr + 
+                "Second Argument is not a number!!" + "\n\n" + format.longLine);
         } catch (IndexOutOfBoundsException e) {
-            System.err.println(format.longLine + "\n\n" + format.LeGoatStr + "Second Argument is not a valid number!!" + "\n\n" + format.longLine);
+            System.err.println(format.longLine + "\n\n" + format.LeGoatStr + 
+                "Second Argument is not a valid number!!" + "\n\n" + format.longLine);
         }
     }
 
@@ -72,7 +78,8 @@ public class taskHandler {
             }
         String taskName = tdName.toString().replaceFirst(" ","");
         if (taskName.isEmpty()) {
-            System.err.println(format.longLine + "\n\n" + format.LeGoatStr + "The correct format is: \"todo <eventName>\"!" + "\n\n" + format.longLine);
+            System.err.println(format.longLine + "\n\n" + format.LeGoatStr + 
+                "The correct format is: \"todo <eventName>\"!" + "\n\n" + format.longLine);
         } else {
             Task t = new Task(taskName, "T", " ");
             listTasks.add(t);
@@ -105,8 +112,9 @@ public class taskHandler {
         String taskDeadline = dDate.toString().replaceFirst(" ","");
         String taskDeadlineDate = format.parseDate(taskDeadline);
         if (taskName.isEmpty() || taskDeadline.isEmpty()) {
-            System.err.println(format.longLine + "\n\n" + format.LeGoatStr + "The correct format is: \"deadline <eventName> /by <deadline>\"!" +
-            "\n\n" + format.longLine);
+            System.err.println(format.longLine + "\n\n" + format.LeGoatStr + 
+                "The correct format is: \"deadline <eventName> /by <deadline>\"!" +
+                "\n\n" + format.longLine);
         } else {
             if (!taskDeadlineDate.equals("")) {
                 taskDeadline = taskDeadlineDate;
@@ -159,8 +167,9 @@ public class taskHandler {
         String taskBeginDate = format.parseDate(taskBegin);
         String taskEndDate = format.parseDate(taskEnd);
         if (taskName.isEmpty() || taskBegin.isEmpty() || taskEnd.isEmpty()) {
-            System.err.println(format.longLine + "\n\n" + format.LeGoatStr + "The correct format is: \"event <eventName> /from <begin> /to <end>\"!" +
-            "\n\n" + format.longLine);
+            System.err.println(format.longLine + "\n\n" + format.LeGoatStr +
+                "The correct format is: \"event <eventName> /from <begin> /to <end>\"!" +
+                "\n\n" + format.longLine);
         } else {
             if (!taskBeginDate.equals("")) {
                 taskBegin = taskBeginDate;
@@ -184,12 +193,13 @@ public class taskHandler {
             int removeTaskAtIDX = Integer.parseInt(input[1]) - 1;
             listTasks.remove(removeTaskAtIDX);
             System.out.println(format.longLine + "\n\n" + format.LeGoatStr + "Task deleted!!" + "\n" +
-            format.LeGoatStr + "You have " + listTasks.size() + " Tasks left!!");
+                format.LeGoatStr + "You have " + listTasks.size() + " Tasks left!!");
             this.saveData();
             System.out.println("\n" + format.longLine);
         } catch (NumberFormatException | IndexOutOfBoundsException e) {
-            System.err.println(format.longLine + "\n\n" + format.LeGoatStr + "The correct format is: \"delete < valid line item number>\"!" +
-            "\n\n" + format.longLine);
+            System.err.println(format.longLine + "\n\n" + format.LeGoatStr + 
+                "The correct format is: \"delete < valid line item number>\"!" +
+                "\n\n" + format.longLine);
         }
     }
 
@@ -218,7 +228,7 @@ public class taskHandler {
             }
         } catch (IOException e) {
             System.err.println(format.longLine + "\n\n" + format.LeGoatStr + "Save FAILED!!!" +
-            "\n\n" + format.longLine);
+                "\n\n" + format.longLine);
         }
     }
 
@@ -249,7 +259,8 @@ public class taskHandler {
                 }
             }
         } catch (FileNotFoundException e) {
-            System.err.println(format.longLine + "\n\n" + format.LeGoatStr + "Load FAILED!!!" + "\n\n" + format.longLine);
+            System.err.println(format.longLine + "\n\n" + format.LeGoatStr +
+                "Load FAILED!!!" + "\n\n" + format.longLine);
         }
     }
 }

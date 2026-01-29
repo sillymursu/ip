@@ -1,19 +1,20 @@
 public class LeGoat {
+    ui format;
     public static void main(String[] args) {
-        String logo = """
-                       _      ___    ____    _____     ___    _______
-                      | |    |  _|  / ___\\  / / \\ \\   / _ \\  |__   __|
-                      | |    | |_  / / ___  | | | |  / /_\\ \\    | |
-                      | |    |  _| \\ \\|_  \\ | | | | / /   \\ \\   | |
-                      | |___ |_|_   \\ \\_| | | \\_/ | | |   | |   | |   _
-                      |____/ |___|   \\___/  \\_____/ |_|   |_|   |_|  |_|
-                      """;
-        String longLine = "--------------------------------------------------";
-        String byeMsg = "LeGoat logging off!";
-        String LeGoatStr = "LeGoat: ";
-        System.out.println("Hello from\n" + logo + "\n" + LeGoatStr + "What can I do for you?" + "\n" + longLine);
+        LeGoat goat = new LeGoat();
+        goat.start();
+    }
+
+    public LeGoat() {
+        this.format = new ui();
+    }
+
+    public void start() {
+        System.out.println("Hello from\n" + format.logo + "\n" + format.LeGoatStr +
+            "What can I do for you?" + "\n" + format.longLine);
         inputHandler handle = new inputHandler();
         handle.start();
-        System.out.println(longLine + "\n\n" + LeGoatStr + byeMsg + "\n\n" + longLine);
+        System.out.println(format.longLine + "\n\n" + format.LeGoatStr + format.byeMsg +
+            "\n\n" + format.longLine);
     }
 }

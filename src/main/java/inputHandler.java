@@ -37,7 +37,8 @@ public class inputHandler {
     }
 
     public void notACommand() {
-        System.err.println(format.longLine + "\n\n" + format.LeGoatStr + "Not something I can help with, brochacho." + "\n\n" + format.longLine);
+        System.err.println(format.longLine + "\n\n" + format.LeGoatStr +
+            "Not something I can help with, brochacho." + "\n\n" + format.longLine);
     }
 
     public void bye() {
@@ -46,7 +47,8 @@ public class inputHandler {
 
     public void list() {
         if (taskHandler.listTasks.isEmpty()) {
-            System.err.println(format.longLine + "\n\n" + format.LeGoatStr + "The list is currently empty! Add some Tasks first!!" + "\n\n" + format.longLine);
+            System.err.println(format.longLine + "\n\n" + format.LeGoatStr +
+                "The list is currently empty! Add some Tasks first!!" + "\n\n" + format.longLine);
         } else {
             System.out.println(format.longLine + "\n");
                 for (int i = 0; i < taskHandler.listTasks.size(); i++) {
