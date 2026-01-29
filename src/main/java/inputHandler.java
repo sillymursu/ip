@@ -17,7 +17,7 @@ public class inputHandler {
         taskHandler.loadData();
         while (this.byeFlag != 1) {
             String inputRaw = sc.nextLine();
-            String[] input = inputRaw.split(" ");
+            String[] input = inputRaw.split("\\s+");
             this.handleInput(input);
         }
         sc.close();
@@ -32,6 +32,7 @@ public class inputHandler {
             case "deadline" -> taskHandler.addDeadline(input);
             case "event" -> taskHandler.addEvent(input);
             case "delete" -> taskHandler.delete(input);
+            case "find" -> taskHandler.find(input);
             default -> this.notACommand();
         }
     }
