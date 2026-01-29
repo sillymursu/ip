@@ -1,7 +1,9 @@
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.*;
 
 public class taskHandler {
@@ -192,8 +194,13 @@ public class taskHandler {
         try {
             int removeTaskAtIDX = Integer.parseInt(input[1]) - 1;
             listTasks.remove(removeTaskAtIDX);
-            System.out.println(format.longLine + "\n\n" + format.LeGoatStr + "Task deleted!!" + "\n" +
-                format.LeGoatStr + "You have " + listTasks.size() + " Tasks left!!");
+            if (listTasks.size() == 1) {
+                System.out.println(format.longLine + "\n\n" + format.LeGoatStr + "Task deleted!!" + "\n" +
+                    format.LeGoatStr + "You have " + listTasks.size() + " Task left!!");
+            } else {
+                System.out.println(format.longLine + "\n\n" + format.LeGoatStr + "Task deleted!!" + "\n" +
+                    format.LeGoatStr + "You have " + listTasks.size() + " Tasks left!!");
+            }
             this.saveData();
             System.out.println("\n" + format.longLine);
         } catch (NumberFormatException | IndexOutOfBoundsException e) {
@@ -261,6 +268,56 @@ public class taskHandler {
         } catch (FileNotFoundException e) {
             System.err.println(format.longLine + "\n\n" + format.LeGoatStr +
                 "Load FAILED!!!" + "\n\n" + format.longLine);
+        }
+    }
+
+    public void find(String[] input) {
+        if (input.length > 2) {
+            System.err.println(format.longLine + "\n\n" + format.LeGoatStr + "You can only find (1) keyword!" +
+                "\n\n" + format.longLine);
+        } else {
+            int tasksFound = 0;
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+            try {
+                System.out.println(format.longLine + "\n");
+                for (Task t : listTasks) {
+                    String taskName = t.taskName;
+                    if (taskName.contains(input[1])) {
+                        tasksFound++;
+                        String type = t.taskType;
+                        switch (type) {
+                            case "D" -> {
+                                Deadline d = (Deadline) t;
+                                bw.write("   " + d.toString());
+                                bw.newLine();
+                            }
+                            case "E" -> {
+                                Event e = (Event) t;
+                                bw.write("   " + e.toString());
+                                bw.newLine();
+                            }
+                            default -> {
+                                bw.write("   " + t.toString());
+                                bw.newLine();
+                            }
+                        }
+                    }
+                }
+                if (tasksFound != 0) {
+                    if (tasksFound > 1) {
+                        System.out.println(format.LeGoatStr + "I found " + tasksFound + " tasks:");
+                        bw.flush();
+                    } else {
+                        System.out.println(format.LeGoatStr + "I found 1 task:");
+                        bw.flush();
+                    }
+                } else {
+                    System.err.println(format.LeGoatStr + "Uh oh! No tasks with keyword " + input[1] + " were found!");
+                }
+                System.out.println("\n" + format.longLine);
+            } catch (IOException e) {
+                System.err.println(format.LeGoatStr + "Uh oh! IOException!" + "\n" + format.longLine);
+            }
         }
     }
 }
