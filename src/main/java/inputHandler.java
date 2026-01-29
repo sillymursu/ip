@@ -2,11 +2,22 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.DateTimeException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class inputHandler {
     String longLine = "--------------------------------------------------";
     String LeGoatStr = "LeGoat: ";
+    String deadlineTimeFormatReminder = """
+
+                                PS: If you want "/by" to be formatted:
+                                    yyyy mm dd <24h time>""";
+    String eventTimeFormatReminder = """
+
+                                PS: If you want "/from" or "/to" to be formatted:
+                                    yyyy mm dd <24h time>""";
     int byeFlag;
     ArrayList<Task> listTasks;
     File savePath;
@@ -165,12 +176,19 @@ public class inputHandler {
         }
         String taskName = dName.toString().replaceFirst(" ","");
         String taskDeadline = dDate.toString().replaceFirst(" ","");
+        String taskDeadlineDate = this.parseDate(taskDeadline);
         if (taskName.isEmpty() || taskDeadline.isEmpty()) {
             System.err.println(longLine + "\n\n" + LeGoatStr + "The correct format is: \"deadline <eventName> /by <deadline>\"!" + "\n\n" + longLine);
         } else {
+            if (!taskDeadlineDate.equals("")) {
+                taskDeadline = taskDeadlineDate;
+            }
             Deadline d = new Deadline(taskName, "D", " ", taskDeadline);
             listTasks.add(d);
             System.out.println(longLine + "\n\n" + "Added Deadline:\n   " + d.toString());
+            if (taskDeadlineDate.equals("")) {
+                System.out.println(deadlineTimeFormatReminder);
+            }
             this.saveData();
             System.out.println("\n" + longLine);
         }
@@ -210,12 +228,23 @@ public class inputHandler {
         String taskName = eName.toString().replaceFirst(" ","");
         String taskBegin = eFrom.toString().replaceFirst(" ","");
         String taskEnd = eTo.toString().replaceFirst(" ","");
+        String taskBeginDate = this.parseDate(taskBegin);
+        String taskEndDate = this.parseDate(taskEnd);
         if (taskName.isEmpty() || taskBegin.isEmpty() || taskEnd.isEmpty()) {
             System.err.println(longLine + "\n\n" + LeGoatStr + "The correct format is: \"event <eventName> /from <begin> /to <end>\"!" + "\n\n" + longLine);
         } else {
+            if (!taskBeginDate.equals("")) {
+                taskBegin = taskBeginDate;
+            }
+            if (!taskEndDate.equals("")) {
+                taskEnd = taskEndDate;
+            }
             Event e = new Event(taskName, "E", " ", taskBegin, taskEnd);
             listTasks.add(e);
             System.out.println(longLine + "\n\n" + "Added Event:\n   " + e.toString());
+            if (taskBeginDate.equals("") || taskEndDate.equals("")) {
+                System.out.println(eventTimeFormatReminder);
+            }
             this.saveData();
             System.out.println("\n" + longLine);
         }
@@ -291,5 +320,30 @@ public class inputHandler {
         } catch (FileNotFoundException e) {
             System.err.println(longLine + "\n\n" + LeGoatStr + "Sum ting wong..." + "\n\n" + longLine);
         }
+    }
+
+    public String parseDate(String maybeDate) {
+        try {
+            DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("yyyy MM dd HHmm");
+            DateTimeFormatter outputFormat = DateTimeFormatter.ofPattern("MMM yyyy hh:mm a");
+            LocalDateTime inputTime = LocalDateTime.parse(maybeDate, inputFormat);
+            String daySuffix = getDaySuffix(inputTime.getDayOfMonth());
+            String outputTime = String.format("%d%s %s", inputTime.getDayOfMonth(), daySuffix, inputTime.format(outputFormat));
+            return outputTime;
+        } catch (DateTimeException e) {
+            return "";
+        }
+    }
+
+    private String getDaySuffix(int day) {
+        if (day >= 11 && day <= 13) {
+            return "th";
+        }
+        return switch (day % 10) {
+            case 1 -> "st";
+            case 2 -> "nd";
+            case 3 -> "rd";
+            default -> "th";
+        };
     }
 }
