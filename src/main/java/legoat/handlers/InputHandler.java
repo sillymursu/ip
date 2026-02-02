@@ -1,21 +1,26 @@
+package handlers;
 import java.util.Scanner;
+import tasktypes.Deadline;
+import tasktypes.Event;
+import tasktypes.Task;
+import legoatui.Ui;
 
 public class InputHandler {
-    private final ui format;
-    taskHandler taskHandler;
-    int byeFlag;
+    private final Ui format;
+    TaskHandler taskHandler;
+    int isBye;
     
     public InputHandler() {
-        this.byeFlag = 0;
-        this.format = new ui();
-        this.taskHandler = new taskHandler();
+        this.isBye = 0;
+        this.format = new Ui();
+        this.taskHandler = new TaskHandler();
     }
 
     public void start() {
         @SuppressWarnings("ConvertToTryWithResources")
         Scanner sc = new Scanner(System.in);
         taskHandler.loadData();
-        while (this.byeFlag != 1) {
+        while (this.isBye != 1) {
             String inputRaw = sc.nextLine();
             String[] input = inputRaw.split("\\s+");
             this.handleInput(input);
@@ -38,20 +43,20 @@ public class InputHandler {
     }
 
     public void notACommand() {
-        System.err.println(format.longLine + "\n\n" + format.LeGoatStr +
-            "Not something I can help with, brochacho." + "\n\n" + format.longLine);
+        System.err.println(format.LONG_LINE + "\n\n" + format.LEGOAT_STR +
+            "Not something I can help with, brochacho." + "\n\n" + format.LONG_LINE);
     }
 
     public void bye() {
-        this.byeFlag = 1;
+        this.isBye = 1;
     }
 
     public void list() {
         if (taskHandler.getTaskList().isEmpty()) {
-            System.err.println(format.longLine + "\n\n" + format.LeGoatStr +
-                "The list is currently empty! Add some Tasks first!!" + "\n\n" + format.longLine);
+            System.err.println(format.LONG_LINE + "\n\n" + format.LEGOAT_STR +
+                "The list is currently empty! Add some Tasks first!!" + "\n\n" + format.LONG_LINE);
         } else {
-            System.out.println(format.longLine + "\n");
+            System.out.println(format.LONG_LINE + "\n");
                 for (int i = 0; i < taskHandler.getTaskList().size(); i++) {
                     int lineNumber = i + 1;
                     String type = taskHandler.getTaskList().get(i).getTaskType();
@@ -70,7 +75,7 @@ public class InputHandler {
                         }
                     }
                 }
-            System.out.println("\n" + format.longLine);
+            System.out.println("\n" + format.LONG_LINE);
         }
     }
 }
