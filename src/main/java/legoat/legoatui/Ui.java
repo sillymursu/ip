@@ -1,9 +1,10 @@
+package legoatui;
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class ui {
-    public String logo = """
+public class Ui {
+    public final String LOGO = """
                        _      ___    ____    _____     ___    _______
                       | |    |  _|  / ___\\  / / \\ \\   / _ \\  |__   __|
                       | |    | |_  / / ___  | | | |  / /_\\ \\    | |
@@ -11,19 +12,19 @@ public class ui {
                       | |___ |_|_   \\ \\_| | | \\_/ | | |   | |   | |   _
                       |____/ |___|   \\___/  \\_____/ |_|   |_|   |_|  |_|
                       """;
-    public String byeMsg = "LeGoat logging off!";
-    public String longLine = "--------------------------------------------------";
-    public String LeGoatStr = "LeGoat: ";
-    public String deadlineTimeFormatReminder = """
+    public final String BYE_MSG = "LeGoat logging off!";
+    public final String LONG_LINE = "--------------------------------------------------";
+    public final String LEGOAT_STR = "LeGoat: ";
+    public final String DEADLINE_FORMAT_REMINDER = """
 
                                 PS: If you want "/by" to be formatted:
                                     yyyy mm dd <24h time>""";
-    public String eventTimeFormatReminder = """
+    public final String EVENT_FORMAT_REMINDER = """
 
                                 PS: If you want "/from" or "/to" to be formatted:
                                     yyyy mm dd <24h time>""";
 
-    public ui() {}
+    public Ui() {}
 
     public String parseDate(String maybeDate) {
         try {
