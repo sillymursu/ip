@@ -1,4 +1,4 @@
-package tasktypes;
+package legoat.tasktypes;
 public class Task {
     private final String taskName;
     private final String taskType;

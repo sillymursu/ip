@@ -1,4 +1,4 @@
-package tasktypes;
+package legoat.tasktypes;
 
 public class Deadline extends Task {
     private final String deadline;

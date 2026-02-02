@@ -1,25 +1,29 @@
-package handlers;
+package legoat.handlers;
 import java.util.Scanner;
-import tasktypes.Deadline;
-import tasktypes.Event;
-import tasktypes.Task;
-import legoatui.Ui;
+
+import legoat.legoatui.Ui;
+import legoat.tasktypes.Deadline;
+import legoat.tasktypes.Event;
+import legoat.tasktypes.Task;
 
 public class InputHandler {
     private final Ui format;
     TaskHandler taskHandler;
+    DataHandler dataHandler;
     int isBye;
     
     public InputHandler() {
         this.isBye = 0;
         this.format = new Ui();
         this.taskHandler = new TaskHandler();
+        this.dataHandler = new DataHandler(this.taskHandler);
+        this.taskHandler.setDataHandler(this.dataHandler);
     }
 
     public void start() {
         @SuppressWarnings("ConvertToTryWithResources")
         Scanner sc = new Scanner(System.in);
-        taskHandler.loadData();
+        dataHandler.loadData();
         while (this.isBye != 1) {
             String inputRaw = sc.nextLine();
             String[] input = inputRaw.split("\\s+");

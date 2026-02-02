@@ -1,4 +1,4 @@
-package tasktypes;
+package legoat.tasktypes;
 public class Event extends Task {
     private final String begin;
     private final String end;

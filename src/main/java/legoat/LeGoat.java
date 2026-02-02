@@ -1,5 +1,7 @@
-import handlers.InputHandler;
-import legoatui.Ui;
+package legoat;
+
+import legoat.handlers.InputHandler;
+import legoat.legoatui.Ui;
 
 public class LeGoat {
     private final Ui format;
