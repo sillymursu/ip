@@ -1,7 +1,7 @@
 public class Task {
-    String taskName;
-    String taskType;
-    String taskStatus;
+    private final String taskName;
+    private final String taskType;
+    private String taskStatus;
 
     public Task(String taskName, String taskType, String taskStatus) {
         this.taskName = taskName;
@@ -15,6 +15,18 @@ public class Task {
 
     public void unmark() {
         this.taskStatus = " ";
+    }
+
+    public String getTaskName() {
+        return this.taskName;
+    }
+
+    public String getTaskType() {
+        return this.taskType;
+    }
+
+    public String getTaskStatus() {
+        return this.taskStatus;
     }
 
     @Override

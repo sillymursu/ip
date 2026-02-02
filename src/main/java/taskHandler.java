@@ -4,24 +4,29 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class taskHandler {
-    ArrayList<Task> listTasks;
-    File savePath;
-    ui format;
+    private final ArrayList<Task> taskList;
+    private File savePath;
+    private final ui format;
 
     public taskHandler() {
-        this.listTasks = new ArrayList<>();
+        this.taskList = new ArrayList<>();
         this.format = new ui();
     }
 
+    public ArrayList<Task> getTaskList() {
+        return this.taskList;
+    }
+    
     public void markUnmark(String[] input) {
         try {
             int lineNum = Integer.parseInt(input[1]) - 1;
-            Task t = listTasks.get(lineNum);
+            Task t = taskList.get(lineNum);
             if (input[0].equals("mark")) {
-                if (t.taskStatus.equals("X")) {
+                if (t.getTaskStatus().equals("X")) {
                     System.err.println(format.longLine + "\n\n" + format.LeGoatStr +
                         "Time Paradox? Task is already done!" + "\n\n" + format.longLine);
                     return;
@@ -31,7 +36,7 @@ public class taskHandler {
                         "Easy work. Task completed!");
                 }
             } else {
-                if (t.taskStatus.equals(" ")) {
+                if (t.getTaskStatus().equals(" ")) {
                     System.err.println(format.longLine + "\n\n" + format.LeGoatStr +
                         "Time Paradox? Task is not yet done!" + "\n\n" + format.longLine);
                     return;
@@ -41,17 +46,17 @@ public class taskHandler {
                         "Electric Boogaloo. Task uncompleted!");
                 }
             }
-            String type = t.taskType;
+            String type = t.getTaskType();
             switch (type) {
                 case "D" -> {
-                    Deadline d = (Deadline) listTasks.get(lineNum);
+                    Deadline d = (Deadline) taskList.get(lineNum);
                     System.out.println("   " + d.toString());
                     this.saveData();
                     System.out.println("\n" + format.longLine);
                     break;
                 }
                 case "E" -> {
-                    Event e = (Event) listTasks.get(lineNum);
+                    Event e = (Event) taskList.get(lineNum);
                     System.out.println("   " + e.toString());
                     this.saveData();
                     System.out.println("\n" + format.longLine);
@@ -84,7 +89,7 @@ public class taskHandler {
                 "The correct format is: \"todo <eventName>\"!" + "\n\n" + format.longLine);
         } else {
             Task t = new Task(taskName, "T", " ");
-            listTasks.add(t);
+            taskList.add(t);
             System.out.println(format.longLine + "\n\n" + "Added Task:\n   " + t.toString());
             this.saveData();
             System.out.println("\n" + format.longLine);
@@ -118,11 +123,11 @@ public class taskHandler {
                 "The correct format is: \"deadline <eventName> /by <deadline>\"!" +
                 "\n\n" + format.longLine);
         } else {
-            if (!taskDeadlineDate.equals("")) {
+            if (!taskDeadlineDate.isEmpty()) {
                 taskDeadline = taskDeadlineDate;
             }
             Deadline d = new Deadline(taskName, "D", " ", taskDeadline);
-            listTasks.add(d);
+            taskList.add(d);
             System.out.println(format.longLine + "\n\n" + "Added Deadline:\n   " + d.toString());
             if (taskDeadlineDate.equals("")) {
                 System.out.println(format.deadlineTimeFormatReminder);
@@ -173,14 +178,14 @@ public class taskHandler {
                 "The correct format is: \"event <eventName> /from <begin> /to <end>\"!" +
                 "\n\n" + format.longLine);
         } else {
-            if (!taskBeginDate.equals("")) {
+            if (!taskBeginDate.isEmpty()) {
                 taskBegin = taskBeginDate;
             }
-            if (!taskEndDate.equals("")) {
+            if (!taskEndDate.isEmpty()) {
                 taskEnd = taskEndDate;
             }
             Event e = new Event(taskName, "E", " ", taskBegin, taskEnd);
-            listTasks.add(e);
+            taskList.add(e);
             System.out.println(format.longLine + "\n\n" + "Added Event:\n   " + e.toString());
             if (taskBeginDate.equals("") || taskEndDate.equals("")) {
                 System.out.println(format.eventTimeFormatReminder);
@@ -193,13 +198,13 @@ public class taskHandler {
     public void delete(String[] input) {
         try {
             int removeTaskAtIDX = Integer.parseInt(input[1]) - 1;
-            listTasks.remove(removeTaskAtIDX);
-            if (listTasks.size() == 1) {
+            taskList.remove(removeTaskAtIDX);
+            if (taskList.size() == 1) {
                 System.out.println(format.longLine + "\n\n" + format.LeGoatStr + "Task deleted!!" + "\n" +
-                    format.LeGoatStr + "You have " + listTasks.size() + " Task left!!");
+                    format.LeGoatStr + "You have " + taskList.size() + " Task left!!");
             } else {
                 System.out.println(format.longLine + "\n\n" + format.LeGoatStr + "Task deleted!!" + "\n" +
-                    format.LeGoatStr + "You have " + listTasks.size() + " Tasks left!!");
+                    format.LeGoatStr + "You have " + taskList.size() + " Tasks left!!");
             }
             this.saveData();
             System.out.println("\n" + format.longLine);
@@ -215,19 +220,22 @@ public class taskHandler {
             this.savePath = new File("src/data/LeGoatData.txt");
             this.savePath.getParentFile().mkdirs();
             try (FileWriter writer = new FileWriter(savePath)) {
-                for (Task t : listTasks) {
-                    String taskType = t.taskType;
+                for (Task t : taskList) {
+                    String taskType = t.getTaskType();
                     switch (taskType) {
                         case "D" -> {
                             Deadline d = (Deadline) t;
-                            writer.write(d.taskType + " | " + d.taskStatus + " | " + d.taskName + " | " + d.deadline + "\n");
+                            writer.write(d.getTaskType() + " | " + d.getTaskStatus() + " | " + d.getTaskName() +
+                                     " | " + d.getDeadline() + "\n");
                         }
                         case "E" -> {
                             Event e = (Event) t;
-                            writer.write(e.taskType + " | " + e.taskStatus + " | " + e.taskName + " | " + e.begin+ " | " + e.end + "\n");
+                            writer.write(e.getTaskType() + " | " + e.getTaskStatus() + " | " + e.getTaskName() +
+                                     " | " + e.getBegin() + " | " + e.getEnd() + "\n");
                         }
                         default -> {
-                            writer.write(t.taskType + " | " + t.taskStatus + " | " + t.taskName + "\n");
+                            writer.write(t.getTaskType() + " | " + t.getTaskStatus() + " | " + t.getTaskName() +
+                                     "\n");
                         }
                     }
                 }
@@ -235,7 +243,7 @@ public class taskHandler {
             }
         } catch (IOException e) {
             System.err.println(format.longLine + "\n\n" + format.LeGoatStr + "Save FAILED!!!" +
-                "\n\n" + format.longLine);
+                    "\n\n" + format.longLine);
         }
     }
 
@@ -251,15 +259,15 @@ public class taskHandler {
                         switch (type) {
                             case "D" -> {
                                 Deadline d = new Deadline(lineItems[2], "D", lineItems[1], lineItems[3]);
-                                listTasks.add(d);
+                                taskList.add(d);
                             }
                             case "E" -> {
                                 Event e = new Event(lineItems[2], "E", lineItems[1], lineItems[3], lineItems[4]);
-                                listTasks.add(e);
+                                taskList.add(e);
                             }
                             case "T" -> {
                                 Task t = new Task(lineItems[2], "T", lineItems[1]);
-                                listTasks.add(t);
+                                taskList.add(t);
                             }
                         }
                     }
@@ -267,7 +275,7 @@ public class taskHandler {
             }
         } catch (FileNotFoundException e) {
             System.err.println(format.longLine + "\n\n" + format.LeGoatStr +
-                "Load FAILED!!!" + "\n\n" + format.longLine);
+                    "Load FAILED!!!" + "\n\n" + format.longLine);
         }
     }
 
@@ -280,11 +288,11 @@ public class taskHandler {
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
             try {
                 System.out.println(format.longLine + "\n");
-                for (Task t : listTasks) {
-                    String taskName = t.taskName;
+                for (Task t : taskList) {
+                    String taskName = t.getTaskName();
                     if (taskName.contains(input[1])) {
                         tasksFound++;
-                        String type = t.taskType;
+                        String type = t.getTaskType();
                         switch (type) {
                             case "D" -> {
                                 Deadline d = (Deadline) t;

@@ -1,11 +1,11 @@
 import java.util.Scanner;
 
-public class inputHandler {
-    ui format;
+public class InputHandler {
+    private final ui format;
     taskHandler taskHandler;
     int byeFlag;
     
-    public inputHandler() {
+    public InputHandler() {
         this.byeFlag = 0;
         this.format = new ui();
         this.taskHandler = new taskHandler();
@@ -47,25 +47,25 @@ public class inputHandler {
     }
 
     public void list() {
-        if (taskHandler.listTasks.isEmpty()) {
+        if (taskHandler.getTaskList().isEmpty()) {
             System.err.println(format.longLine + "\n\n" + format.LeGoatStr +
                 "The list is currently empty! Add some Tasks first!!" + "\n\n" + format.longLine);
         } else {
             System.out.println(format.longLine + "\n");
-                for (int i = 0; i < taskHandler.listTasks.size(); i++) {
+                for (int i = 0; i < taskHandler.getTaskList().size(); i++) {
                     int lineNumber = i + 1;
-                    String type = taskHandler.listTasks.get(i).taskType;
+                    String type = taskHandler.getTaskList().get(i).getTaskType();
                     switch (type) {
                         case "D" -> {
-                            Deadline d = (Deadline) taskHandler.listTasks.get(i);
+                            Deadline d = (Deadline) taskHandler.getTaskList().get(i);
                             System.out.println(lineNumber + ". " + d.toString());
                         }
                         case "E" -> {
-                            Event e = (Event) taskHandler.listTasks.get(i);
+                            Event e = (Event) taskHandler.getTaskList().get(i);
                             System.out.println(lineNumber + ". " + e.toString());
                         }
                         default -> {
-                            Task t = taskHandler.listTasks.get(i);
+                            Task t = taskHandler.getTaskList().get(i);
                             System.out.println(lineNumber + ". " + t.toString());
                         }
                     }

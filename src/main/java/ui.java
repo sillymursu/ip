@@ -3,7 +3,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class ui {
-    String logo = """
+    public String logo = """
                        _      ___    ____    _____     ___    _______
                       | |    |  _|  / ___\\  / / \\ \\   / _ \\  |__   __|
                       | |    | |_  / / ___  | | | |  / /_\\ \\    | |
@@ -11,14 +11,14 @@ public class ui {
                       | |___ |_|_   \\ \\_| | | \\_/ | | |   | |   | |   _
                       |____/ |___|   \\___/  \\_____/ |_|   |_|   |_|  |_|
                       """;
-    String byeMsg = "LeGoat logging off!";
-    String longLine = "--------------------------------------------------";
-    String LeGoatStr = "LeGoat: ";
-    String deadlineTimeFormatReminder = """
+    public String byeMsg = "LeGoat logging off!";
+    public String longLine = "--------------------------------------------------";
+    public String LeGoatStr = "LeGoat: ";
+    public String deadlineTimeFormatReminder = """
 
                                 PS: If you want "/by" to be formatted:
                                     yyyy mm dd <24h time>""";
-    String eventTimeFormatReminder = """
+    public String eventTimeFormatReminder = """
 
                                 PS: If you want "/from" or "/to" to be formatted:
                                     yyyy mm dd <24h time>""";

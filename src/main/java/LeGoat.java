@@ -1,5 +1,5 @@
 public class LeGoat {
-    ui format;
+    private final ui format;
     public static void main(String[] args) {
         LeGoat goat = new LeGoat();
         goat.start();
@@ -12,7 +12,7 @@ public class LeGoat {
     public void start() {
         System.out.println("Hello from\n" + format.logo + "\n" + format.LeGoatStr +
             "What can I do for you?" + "\n" + format.longLine);
-        inputHandler handle = new inputHandler();
+        InputHandler handle = new InputHandler();
         handle.start();
         System.out.println(format.longLine + "\n\n" + format.LeGoatStr + format.byeMsg +
             "\n\n" + format.longLine);

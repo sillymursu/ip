@@ -1,6 +1,6 @@
 public class Event extends Task {
-    String begin;
-    String end;
+    private final String begin;
+    private final String end;
 
     public Event(String taskName, String taskType, String taskStatus, String begin, String end) {
         super(taskName, taskType, taskStatus);
@@ -8,10 +8,18 @@ public class Event extends Task {
         this.end = end;
     }
 
+    public String getBegin() {
+        return this.begin;
+    }
+
+    public String getEnd() {
+        return this.end;
+    }
+
     @Override
     public String toString() {
-        String s = "[" + this.taskType + "][" + this.taskStatus + "] " + this.taskName +
-            " (from: " + this.begin + " | to: " + this.end + ")";
+        String s = "[" + this.getTaskType() + "][" + this.getTaskStatus() + "] " + this.getTaskName() +
+                " (from: " + this.begin + " | to: " + this.end + ")";
         return s;
     }
 }
