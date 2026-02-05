@@ -6,12 +6,21 @@ import legoat.tasktypes.Deadline;
 import legoat.tasktypes.Event;
 import legoat.tasktypes.Task;
 
+/**
+* InputHandler handles all input related events.
+*
+* @author Russell Lin
+*/
 public class InputHandler {
     private final Ui format;
     TaskHandler taskHandler;
     DataHandler dataHandler;
     int isBye;
     
+    /**
+    * <p>Constructor for InputHandler objects. Initializes a TaskHandler object and DataHandler object.
+    * @since v0.1
+    */
     public InputHandler() {
         this.isBye = 0;
         this.format = new Ui();
@@ -20,6 +29,10 @@ public class InputHandler {
         this.taskHandler.setDataHandler(this.dataHandler);
     }
 
+    /**
+    * <p>Second method called by LeGoat, forces LeBron to accept input until "bye" input.
+    * @since v0.1
+    */
     public void start() {
         @SuppressWarnings("ConvertToTryWithResources")
         Scanner sc = new Scanner(System.in);
@@ -32,6 +45,11 @@ public class InputHandler {
         sc.close();
     }
 
+    /**
+    * <p>Handles user inputs by directing them to the correct function.
+    * @param input User input is stored as a String[], input[0] is used to decide which command runs
+    * @since v0.1
+    */
     public void handleInput(String[] input) {
         switch (input[0]) {
         case "bye" -> this.bye();
@@ -46,15 +64,28 @@ public class InputHandler {
         }
     }
 
+    /**
+    * <p>Default function called when user input is not recognised as a valid command.
+    * @since v0.1
+    */
     public void handleUnknownCommand() {
         System.err.println(format.LONG_LINE + "\n\n" + format.LEGOAT_STR +
             "Not something I can help with, brochacho." + "\n\n" + format.LONG_LINE);
     }
 
+    /**
+    * <p>Function called when user input is "bye", sets isBye to 1, which force LeBron to terminate.
+    * @since v0.1
+    */
     public void bye() {
         this.isBye = 1;
     }
 
+    /**
+    * <p>Function called when user input is "list", prints a list of added tasks unless
+    *  current list of tasks is empty.
+    * @since v0.1
+    */
     public void list() {
         if (taskHandler.getTasks().isEmpty()) {
             System.err.println(format.LONG_LINE + "\n\n" + format.LEGOAT_STR +

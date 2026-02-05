@@ -9,24 +9,50 @@ import legoat.tasktypes.Deadline;
 import legoat.tasktypes.Event;
 import legoat.tasktypes.Task;
 
+/**
+* TaskHandler handles all task related events.
+*
+* @author Russell Lin
+*/
 public class TaskHandler {
     private final ArrayList<Task> tasks;
     private final Ui format;
     private DataHandler dataHandler;
 
+    /**
+    * <p>Constructor for TaskHandler objects. Initializes a list of tasks.
+    * @since v0.1
+    */
     public TaskHandler() {
         this.tasks = new ArrayList<>();
         this.format = new Ui();
     }
 
+    /**
+    * <p>Sets this TaskHandler object's dataHandler field to @param.
+    * @param dataHandler Instance of DataHandler class
+    * @since v0.1
+    */
     public void setDataHandler(DataHandler dataHandler) {
         this.dataHandler = dataHandler;
     }
 
+    /**
+    * <p>Getter method that returns a list of tasks.
+    * @return ArrayList of tasks
+    * @since v0.1
+    */
     public ArrayList<Task> getTasks() {
         return this.tasks;
     }
     
+    /**
+    * <p>Marks/Unmarks a task based off input.
+    * @param input User input is stored as a String[], input[0] is used to decide which command runs
+    * @throws NumberFormatException
+    * @throws IndexOutOfBoundsException
+    * @since v0.1
+    */
     public void markUnmark(String[] input) {
         try {
             int lineNum = Integer.parseInt(input[1]) - 1;
@@ -83,6 +109,11 @@ public class TaskHandler {
         }
     }
 
+    /**
+    * <p>Adds a Task object to the list of tasks maintained by TaskHandler instance.
+    * @param input User input is stored as a String[], input[0] is used to decide which command runs
+    * @since v0.1
+    */
     public void addToDo(String[] input) {
         StringBuilder tdName = new StringBuilder();
             for (int i = 1; i < input.length; i++) {
@@ -102,6 +133,11 @@ public class TaskHandler {
         }
     }
 
+    /**
+    * <p>Adds a Deadline object to the list of tasks maintained by TaskHandler instance.
+    * @param input User input is stored as a String[], input[0] is used to decide which command runs
+    * @since v0.1
+    */
     public void addDeadline(String[] input) {
         StringBuilder dName = new StringBuilder();
         StringBuilder dDate = new StringBuilder();
@@ -143,6 +179,11 @@ public class TaskHandler {
         }
     }
 
+    /**
+    * <p>Adds a Event object to the list of tasks maintained by TaskHandler instance.
+    * @param input User input is stored as a String[], input[0] is used to decide which command runs
+    * @since v0.1
+    */
     public void addEvent(String[] input) {
         StringBuilder eName = new StringBuilder();
         StringBuilder eFrom = new StringBuilder();
@@ -201,6 +242,12 @@ public class TaskHandler {
         }
     }
 
+    /**
+    * <p>Deletes a task from the list of tasks maintained by TaskHandler instance based on index [1-n]
+    *  of the specified task in the list.
+    * @param input User input is stored as a String[], input[0] is used to decide which command runs
+    * @since v0.1
+    */
     public void deleteTask(String[] input) {
         try {
             int taskIndexToRemove = Integer.parseInt(input[1]) - 1;
@@ -221,6 +268,11 @@ public class TaskHandler {
         }
     }
 
+    /**
+    * <p>Finds tasks from the list of tasks maintained by TaskHandler based on a singular matching keyword in task names.
+    * @param input User input is stored as a String[], input[0] is used to decide which command runs
+    * @since v0.1
+    */
     public void find(String[] input) {
         if (input.length > 2) {
             System.err.println(format.LONG_LINE + "\n\n" + format.LEGOAT_STR + "You can only find (1) keyword!" +

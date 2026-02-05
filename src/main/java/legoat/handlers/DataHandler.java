@@ -12,16 +12,31 @@ import legoat.tasktypes.Deadline;
 import legoat.tasktypes.Event;
 import legoat.tasktypes.Task;
 
+/**
+* DataHandler handles all data related events.
+*
+* @author Russell Lin
+*/
 public class DataHandler {
     private File savedPath;
     private final Ui format;
     private final TaskHandler taskHandler;
 
+    /**
+    * <p>Constructor for DataHandler objects.
+    * @param taskHandler Instance of class that handles all events related to Tasks.
+    * @since v0.1
+    */
     public DataHandler(TaskHandler taskHandler) {
         this.format = new Ui();
         this.taskHandler = taskHandler;
     }
 
+    /**
+    * <p>Saves the current list of tasks to data/LeGoatData.txt on any change to tasks.
+    * @param taskList ArrayList of Tasks
+    * @since v0.1
+    */
     public void saveData(ArrayList<Task> taskList) {
         try {
             this.savedPath = new File("data/LeGoatData.txt");
@@ -54,6 +69,10 @@ public class DataHandler {
         }
     }
 
+    /**
+    * <p>Loads the list of tasks in data/LeGoatData.txt on LeGoat startup.
+    * @since v0.1
+    */
     public void loadData() {
         try {
             this.savedPath = new File("data/LeGoatData.txt");

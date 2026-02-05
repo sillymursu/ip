@@ -3,6 +3,11 @@ import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+* Ui is a data class that stores all User Interface elements.
+*
+* @author Russell Lin
+*/
 public class Ui {
     public final String LOGO = """
                        _      ___    ____    _____     ___    _______
@@ -26,6 +31,14 @@ public class Ui {
 
     public Ui() {}
 
+    /**
+    * <p>Parses a String into a proper date.
+    * @param maybeDate a String that might be parseable to the desired "MMM yyyy hh:mm a"
+    *  date format
+    * @return Returns a String, a proper date, or a null String if no proper date could be parsed
+    * @throws DateTimeException
+    * @since v0.1
+    */
     public String parseDate(String maybeDate) {
         try {
             DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("yyyy MM dd HHmm");
@@ -39,6 +52,12 @@ public class Ui {
         }
     }
 
+    /**
+    * <p>Returns the suffix of specified day of a month.
+    * @param day an Integer representing the day of the month
+    * @return suffix of specified day of a month
+    * @since v0.1
+    */
     public String getDaySuffix(int day) {
         if (day >= 11 && day <= 13) {
             return "th";
