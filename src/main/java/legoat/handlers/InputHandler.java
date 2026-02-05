@@ -34,19 +34,19 @@ public class InputHandler {
 
     public void handleInput(String[] input) {
         switch (input[0]) {
-            case "bye" -> this.bye();
-            case "list" -> this.list();
-            case "mark", "unmark" -> taskHandler.markUnmark(input);
-            case "todo" -> taskHandler.addToDo(input);
-            case "deadline" -> taskHandler.addDeadline(input);
-            case "event" -> taskHandler.addEvent(input);
-            case "delete" -> taskHandler.delete(input);
-            case "find" -> taskHandler.find(input);
-            default -> this.notACommand();
+        case "bye" -> this.bye();
+        case "list" -> this.list();
+        case "mark", "unmark" -> taskHandler.markUnmark(input);
+        case "todo" -> taskHandler.addToDo(input);
+        case "deadline" -> taskHandler.addDeadline(input);
+        case "event" -> taskHandler.addEvent(input);
+        case "delete" -> taskHandler.deleteTask(input);
+        case "find" -> taskHandler.find(input);
+        default -> this.handleUnknownCommand();
         }
     }
 
-    public void notACommand() {
+    public void handleUnknownCommand() {
         System.err.println(format.LONG_LINE + "\n\n" + format.LEGOAT_STR +
             "Not something I can help with, brochacho." + "\n\n" + format.LONG_LINE);
     }
@@ -56,25 +56,25 @@ public class InputHandler {
     }
 
     public void list() {
-        if (taskHandler.getTaskList().isEmpty()) {
+        if (taskHandler.getTasks().isEmpty()) {
             System.err.println(format.LONG_LINE + "\n\n" + format.LEGOAT_STR +
                 "The list is currently empty! Add some Tasks first!!" + "\n\n" + format.LONG_LINE);
         } else {
             System.out.println(format.LONG_LINE + "\n");
-                for (int i = 0; i < taskHandler.getTaskList().size(); i++) {
+                for (int i = 0; i < taskHandler.getTasks().size(); i++) {
                     int lineNumber = i + 1;
-                    String type = taskHandler.getTaskList().get(i).getTaskType();
-                    switch (type) {
+                    String taskType = taskHandler.getTasks().get(i).getTaskType();
+                    switch (taskType) {
                         case "D" -> {
-                            Deadline d = (Deadline) taskHandler.getTaskList().get(i);
+                            Deadline d = (Deadline) taskHandler.getTasks().get(i);
                             System.out.println(lineNumber + ". " + d.toString());
                         }
                         case "E" -> {
-                            Event e = (Event) taskHandler.getTaskList().get(i);
+                            Event e = (Event) taskHandler.getTasks().get(i);
                             System.out.println(lineNumber + ". " + e.toString());
                         }
                         default -> {
-                            Task t = taskHandler.getTaskList().get(i);
+                            Task t = taskHandler.getTasks().get(i);
                             System.out.println(lineNumber + ". " + t.toString());
                         }
                     }

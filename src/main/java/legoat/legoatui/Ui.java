@@ -12,7 +12,7 @@ public class Ui {
                       | |___ |_|_   \\ \\_| | | \\_/ | | |   | |   | |   _
                       |____/ |___|   \\___/  \\_____/ |_|   |_|   |_|  |_|
                       """;
-    public final String BYE_MSG = "LeGoat logging off!";
+    public final String BYE_MESSAGE = "LeGoat logging off!";
     public final String LONG_LINE = "--------------------------------------------------";
     public final String LEGOAT_STR = "LeGoat: ";
     public final String DEADLINE_FORMAT_REMINDER = """

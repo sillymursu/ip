@@ -19,7 +19,7 @@ public class LeGoat {
             "What can I do for you?" + "\n" + format.LONG_LINE);
         InputHandler handle = new InputHandler();
         handle.start();
-        System.out.println(format.LONG_LINE + "\n\n" + format.LEGOAT_STR + format.BYE_MSG +
+        System.out.println(format.LONG_LINE + "\n\n" + format.LEGOAT_STR + format.BYE_MESSAGE +
             "\n\n" + format.LONG_LINE);
     }
 }

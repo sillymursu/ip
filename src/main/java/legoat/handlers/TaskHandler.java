@@ -10,12 +10,12 @@ import legoat.tasktypes.Event;
 import legoat.tasktypes.Task;
 
 public class TaskHandler {
-    private final ArrayList<Task> taskList;
+    private final ArrayList<Task> tasks;
     private final Ui format;
     private DataHandler dataHandler;
 
     public TaskHandler() {
-        this.taskList = new ArrayList<>();
+        this.tasks = new ArrayList<>();
         this.format = new Ui();
     }
 
@@ -23,14 +23,14 @@ public class TaskHandler {
         this.dataHandler = dataHandler;
     }
 
-    public ArrayList<Task> getTaskList() {
-        return this.taskList;
+    public ArrayList<Task> getTasks() {
+        return this.tasks;
     }
     
     public void markUnmark(String[] input) {
         try {
             int lineNum = Integer.parseInt(input[1]) - 1;
-            Task t = getTaskList().get(lineNum);
+            Task t = getTasks().get(lineNum);
             if (input[0].equals("mark")) {
                 if (t.getTaskStatus().equals("X")) {
                     System.err.println(format.LONG_LINE + "\n\n" + format.LEGOAT_STR +
@@ -52,25 +52,25 @@ public class TaskHandler {
                         "Electric Boogaloo. Task uncompleted!");
                 }
             }
-            String type = t.getTaskType();
-            switch (type) {
+            String taskType = t.getTaskType();
+            switch (taskType) {
                 case "D" -> {
-                    Deadline d = (Deadline) getTaskList().get(lineNum);
+                    Deadline d = (Deadline) getTasks().get(lineNum);
                     System.out.println("   " + d.toString());
-                    this.dataHandler.saveData(this.getTaskList());
+                    this.dataHandler.saveData(this.getTasks());
                     System.out.println("\n" + format.LONG_LINE);
                     break;
                 }
                 case "E" -> {
-                    Event e = (Event) getTaskList().get(lineNum);
+                    Event e = (Event) getTasks().get(lineNum);
                     System.out.println("   " + e.toString());
-                    this.dataHandler.saveData(this.getTaskList());
+                    this.dataHandler.saveData(this.getTasks());
                     System.out.println("\n" + format.LONG_LINE);
                     break;
                 }
                 default -> {
                     System.out.println("   " + t.toString());
-                    this.dataHandler.saveData(this.getTaskList());
+                    this.dataHandler.saveData(this.getTasks());
                     System.out.println("\n" + format.LONG_LINE);
                 }
             }
@@ -95,9 +95,9 @@ public class TaskHandler {
                 "The correct format is: \"todo <eventName>\"!" + "\n\n" + format.LONG_LINE);
         } else {
             Task t = new Task(taskName, "T", " ");
-            getTaskList().add(t);
+            getTasks().add(t);
             System.out.println(format.LONG_LINE + "\n\n" + "Added Task:\n   " + t.toString());
-            this.dataHandler.saveData(this.getTaskList());
+            this.dataHandler.saveData(this.getTasks());
             System.out.println("\n" + format.LONG_LINE);
         }
     }
@@ -133,12 +133,12 @@ public class TaskHandler {
                 taskDeadline = taskDeadlineDate;
             }
             Deadline d = new Deadline(taskName, "D", " ", taskDeadline);
-            getTaskList().add(d);
+            getTasks().add(d);
             System.out.println(format.LONG_LINE + "\n\n" + "Added Deadline:\n   " + d.toString());
             if (taskDeadlineDate.equals("")) {
                 System.out.println(format.DEADLINE_FORMAT_REMINDER);
             }
-            this.dataHandler.saveData(this.getTaskList());
+            this.dataHandler.saveData(this.getTasks());
             System.out.println("\n" + format.LONG_LINE);
         }
     }
@@ -191,28 +191,28 @@ public class TaskHandler {
                 taskEnd = taskEndDate;
             }
             Event e = new Event(taskName, "E", " ", taskBegin, taskEnd);
-            getTaskList().add(e);
+            getTasks().add(e);
             System.out.println(format.LONG_LINE + "\n\n" + "Added Event:\n   " + e.toString());
             if (taskBeginDate.equals("") || taskEndDate.equals("")) {
                 System.out.println(format.EVENT_FORMAT_REMINDER);
             }
-            this.dataHandler.saveData(this.getTaskList());
+            this.dataHandler.saveData(this.getTasks());
             System.out.println("\n" + format.LONG_LINE);
         }
     }
 
-    public void delete(String[] input) {
+    public void deleteTask(String[] input) {
         try {
-            int removeTaskAtIDX = Integer.parseInt(input[1]) - 1;
-            getTaskList().remove(removeTaskAtIDX);
-            if (getTaskList().size() == 1) {
+            int taskIndexToRemove = Integer.parseInt(input[1]) - 1;
+            getTasks().remove(taskIndexToRemove);
+            if (getTasks().size() == 1) {
                 System.out.println(format.LONG_LINE + "\n\n" + format.LEGOAT_STR + "Task deleted!!" + "\n" +
-                    format.LEGOAT_STR + "You have " + getTaskList().size() + " Task left!!");
+                    format.LEGOAT_STR + "You have " + getTasks().size() + " Task left!!");
             } else {
                 System.out.println(format.LONG_LINE + "\n\n" + format.LEGOAT_STR + "Task deleted!!" + "\n" +
-                    format.LEGOAT_STR + "You have " + getTaskList().size() + " Tasks left!!");
+                    format.LEGOAT_STR + "You have " + getTasks().size() + " Tasks left!!");
             }
-                this.dataHandler.saveData(this.getTaskList());
+                this.dataHandler.saveData(this.getTasks());
             System.out.println("\n" + format.LONG_LINE);
         } catch (NumberFormatException | IndexOutOfBoundsException e) {
             System.err.println(format.LONG_LINE + "\n\n" + format.LEGOAT_STR + 
@@ -230,12 +230,12 @@ public class TaskHandler {
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
             try {
                 System.out.println(format.LONG_LINE + "\n");
-                for (Task t : getTaskList()) {
+                for (Task t : getTasks()) {
                     String taskName = t.getTaskName();
                     if (taskName.contains(input[1])) {
                         tasksFound++;
-                        String type = t.getTaskType();
-                        switch (type) {
+                        String taskType = t.getTaskType();
+                        switch (taskType) {
                             case "D" -> {
                                 Deadline d = (Deadline) t;
                                 bw.write("   " + d.toString());
