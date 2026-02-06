@@ -33,8 +33,8 @@ public class Deadline extends Task {
     */
     @Override
     public String toString() {
-        String s = "[" + this.getTaskType() + "][" + this.getTaskStatus() + "] " + this.getTaskName() +
-            " (by: " + this.deadline + ")";
+        String s = "[" + this.getTaskType() + "][" + this.getTaskStatus()
+                + "] " + this.getTaskName() + " (by: " + this.deadline + ")";
         return s;
     }
 }

@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 public class LeGoatTest {
     @Test
-    public void startTest(){
+    public void startTest() {
         InputStream sysInBackup = System.in;
         PrintStream sysOutBackup = System.out;
         PrintStream sysErrBackup = System.err;

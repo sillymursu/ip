@@ -10,10 +10,6 @@ import legoat.legoatui.Ui;
 */
 public class LeGoat {
     private final Ui format;
-    public static void main(String[] args) {
-        LeGoat goat = new LeGoat();
-        goat.start();
-    }
 
     /**
     * <p>Constructor for LeGoat objects.
@@ -23,16 +19,21 @@ public class LeGoat {
         this.format = new Ui();
     }
 
+    public static void main(String[] args) {
+        LeGoat goat = new LeGoat();
+        goat.start();
+    }
+
     /**
     * <p>First method called by LeGoat, initializes a InputHandler object.
     * @since v0.1
     */
     public void start() {
-        System.out.println("Hello from\n" + format.LOGO + "\n" + format.LEGOAT_STR +
-            "What can I do for you?" + "\n" + format.LONG_LINE);
+        System.out.println("Hello from\n" + format.logoString + "\n" + format.leGoatString
+                + "What can I do for you?" + "\n" + format.longLineString);
         InputHandler handle = new InputHandler();
         handle.start();
-        System.out.println(format.LONG_LINE + "\n\n" + format.LEGOAT_STR + format.BYE_MESSAGE +
-            "\n\n" + format.LONG_LINE);
+        System.out.println(format.longLineString + "\n\n" + format.leGoatString
+                + format.byeString + "\n\n" + format.longLineString);
     }
 }

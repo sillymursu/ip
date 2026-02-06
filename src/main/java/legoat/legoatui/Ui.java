@@ -9,7 +9,7 @@ import java.time.format.DateTimeFormatter;
 * @author Russell Lin
 */
 public class Ui {
-    public final String LOGO = """
+    public final String logoString = """
                        _      ___    ____    _____     ___    _______
                       | |    |  _|  / ___\\  / / \\ \\   / _ \\  |__   __|
                       | |    | |_  / / ___  | | | |  / /_\\ \\    | |
@@ -17,14 +17,14 @@ public class Ui {
                       | |___ |_|_   \\ \\_| | | \\_/ | | |   | |   | |   _
                       |____/ |___|   \\___/  \\_____/ |_|   |_|   |_|  |_|
                       """;
-    public final String BYE_MESSAGE = "LeGoat logging off!";
-    public final String LONG_LINE = "--------------------------------------------------";
-    public final String LEGOAT_STR = "LeGoat: ";
-    public final String DEADLINE_FORMAT_REMINDER = """
+    public final String byeString = "LeGoat logging off!";
+    public final String longLineString = "--------------------------------------------------";
+    public final String leGoatString = "LeGoat: ";
+    public final String deadlineFormatReminderString = """
 
                                 PS: If you want "/by" to be formatted:
                                     yyyy mm dd <24h time>""";
-    public final String EVENT_FORMAT_REMINDER = """
+    public final String eventFormatReminderString = """
 
                                 PS: If you want "/from" or "/to" to be formatted:
                                     yyyy mm dd <24h time>""";
@@ -34,7 +34,7 @@ public class Ui {
     /**
     * <p>Parses a String into a proper date.
     * @param maybeDate a String that might be parseable to the desired "MMM yyyy hh:mm a"
-    *  date format
+    *     date format
     * @return Returns a String, a proper date, or a null String if no proper date could be parsed
     * @throws DateTimeException
     * @since v0.1
@@ -45,7 +45,8 @@ public class Ui {
             DateTimeFormatter outputFormat = DateTimeFormatter.ofPattern("MMM yyyy hh:mm a");
             LocalDateTime inputTime = LocalDateTime.parse(maybeDate, inputFormat);
             String daySuffix = getDaySuffix(inputTime.getDayOfMonth());
-            String outputTime = String.format("%d%s %s", inputTime.getDayOfMonth(), daySuffix, inputTime.format(outputFormat));
+            String outputTime = String.format("%d%s %s", inputTime.getDayOfMonth(),
+                    daySuffix, inputTime.format(outputFormat));
             return outputTime;
         } catch (DateTimeException e) {
             return "";
@@ -63,10 +64,10 @@ public class Ui {
             return "th";
         }
         return switch (day % 10) {
-            case 1 -> "st";
-            case 2 -> "nd";
-            case 3 -> "rd";
-            default -> "th";
+        case 1 -> "st";
+        case 2 -> "nd";
+        case 3 -> "rd";
+        default -> "th";
         };
     }
 }

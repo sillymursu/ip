@@ -45,7 +45,7 @@ public class TaskHandlerTest {
             }
         }
     }
-    
+
     @Test
     public void deadlineValidDateTest() {
         InputStream sysInBackup = System.in;
@@ -188,7 +188,8 @@ public class TaskHandlerTest {
         PrintStream sysOutBackup = System.out;
         PrintStream sysErrBackup = System.err;
         try {
-            ByteArrayInputStream in = new ByteArrayInputStream("event test1 /from 2026 12 23 1000 /to 2026 12 23 1200\nbye".getBytes());
+            String input = "event test1 /from 2026 12 23 1000 /to 2026 12 23 1200\nbye";
+            ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             ByteArrayOutputStream err = new ByteArrayOutputStream();
             System.setIn(in);
@@ -227,7 +228,8 @@ public class TaskHandlerTest {
         PrintStream sysOutBackup = System.out;
         PrintStream sysErrBackup = System.err;
         try {
-            ByteArrayInputStream in = new ByteArrayInputStream("event /from 2026 12 23 1000 /to 2026 12 23 1200\nbye".getBytes());
+            String input = "event /from 2026 12 23 1000 /to 2026 12 23 1200\nbye";
+            ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             ByteArrayOutputStream err = new ByteArrayOutputStream();
             System.setIn(in);

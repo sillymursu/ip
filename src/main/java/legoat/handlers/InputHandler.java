@@ -13,10 +13,9 @@ import legoat.tasktypes.Task;
 */
 public class InputHandler {
     private final Ui format;
-    TaskHandler taskHandler;
-    DataHandler dataHandler;
-    int isBye;
-    
+    private final TaskHandler taskHandler;
+    private final DataHandler dataHandler;
+    private int isBye;
     /**
     * <p>Constructor for InputHandler objects. Initializes a TaskHandler object and DataHandler object.
     * @since v0.1
@@ -69,8 +68,8 @@ public class InputHandler {
     * @since v0.1
     */
     public void handleUnknownCommand() {
-        System.err.println(format.LONG_LINE + "\n\n" + format.LEGOAT_STR +
-            "Not something I can help with, brochacho." + "\n\n" + format.LONG_LINE);
+        System.err.println(format.longLineString + "\n\n" + format.leGoatString
+            + "Not something I can help with, brochacho." + "\n\n" + format.longLineString);
     }
 
     /**
@@ -88,29 +87,30 @@ public class InputHandler {
     */
     public void list() {
         if (taskHandler.getTasks().isEmpty()) {
-            System.err.println(format.LONG_LINE + "\n\n" + format.LEGOAT_STR +
-                "The list is currently empty! Add some Tasks first!!" + "\n\n" + format.LONG_LINE);
+            System.err.println(format.longLineString + "\n\n" + format.leGoatString
+                    + "The list is currently empty! Add some Tasks first!!" + "\n\n"
+                    + format.longLineString);
         } else {
-            System.out.println(format.LONG_LINE + "\n");
-                for (int i = 0; i < taskHandler.getTasks().size(); i++) {
-                    int lineNumber = i + 1;
-                    String taskType = taskHandler.getTasks().get(i).getTaskType();
-                    switch (taskType) {
-                        case "D" -> {
-                            Deadline d = (Deadline) taskHandler.getTasks().get(i);
-                            System.out.println(lineNumber + ". " + d.toString());
-                        }
-                        case "E" -> {
-                            Event e = (Event) taskHandler.getTasks().get(i);
-                            System.out.println(lineNumber + ". " + e.toString());
-                        }
-                        default -> {
-                            Task t = taskHandler.getTasks().get(i);
-                            System.out.println(lineNumber + ". " + t.toString());
-                        }
-                    }
+            System.out.println(format.longLineString + "\n");
+            for (int i = 0; i < taskHandler.getTasks().size(); i++) {
+                int lineNumber = i + 1;
+                String taskType = taskHandler.getTasks().get(i).getTaskType();
+                switch (taskType) {
+                case "D" -> {
+                    Deadline d = (Deadline) taskHandler.getTasks().get(i);
+                    System.out.println(lineNumber + ". " + d.toString());
                 }
-            System.out.println("\n" + format.LONG_LINE);
+                case "E" -> {
+                    Event e = (Event) taskHandler.getTasks().get(i);
+                    System.out.println(lineNumber + ". " + e.toString());
+                }
+                default -> {
+                    Task t = taskHandler.getTasks().get(i);
+                    System.out.println(lineNumber + ". " + t.toString());
+                }
+                }
+            }
+            System.out.println("\n" + format.longLineString);
         }
     }
 }
