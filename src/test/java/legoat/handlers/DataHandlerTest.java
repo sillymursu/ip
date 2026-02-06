@@ -13,7 +13,7 @@ import legoat.LeGoat;
 
 public class DataHandlerTest {
     @Test
-    public void saveDataTest(){
+    public void saveDataTest() {
         InputStream sysInBackup = System.in;
         PrintStream sysOutBackup = System.out;
         PrintStream sysErrBackup = System.err;
@@ -33,7 +33,7 @@ public class DataHandlerTest {
             assertTrue(stdout.contains("[T][ ] test1"));
             assertTrue(stdout.contains("Saved successfully!"));
             java.io.File savePath = new java.io.File("data");
-            java.io.File saveFile = new java.io.File("data/LeGoatData.txt");       
+            java.io.File saveFile = new java.io.File("data/LeGoatData.txt");
             assertTrue(savePath.exists() && savePath.isDirectory());
             assertTrue(saveFile.exists() && saveFile.isFile());
         } finally {
@@ -52,7 +52,7 @@ public class DataHandlerTest {
     }
 
     @Test
-    public void loadDataTest(){
+    public void loadDataTest() {
         InputStream sysInBackup = System.in;
         PrintStream sysOutBackup = System.out;
         PrintStream sysErrBackup = System.err;
@@ -80,7 +80,7 @@ public class DataHandlerTest {
             String stdout = out.toString();
             assertTrue(stdout.contains("[T][ ] test1"));
             assertTrue(stdout.contains("[D][ ] test2 (by: now)"));
-            assertTrue(stdout.contains("[E][ ] test3 (from: now | to: later)"));      
+            assertTrue(stdout.contains("[E][ ] test3 (from: now | to: later)"));
             assertTrue(saveFolder.exists() && saveFolder.isDirectory());
             assertTrue(saveFile.exists() && saveFile.isFile());
         } finally {
