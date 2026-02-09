@@ -30,6 +30,7 @@ public class DataHandler {
             this.savedPath = new File("data/LeGoatData.txt");
             this.savedPath.getParentFile().mkdirs();
             try (FileWriter writer = new FileWriter(savedPath)) {
+                assert !taskList.isEmpty() : "List of tasks must not be empty";
                 for (Task t : taskList) {
                     String taskType = t.getTaskType();
                     switch (taskType) {
@@ -71,14 +72,17 @@ public class DataHandler {
                         String type = lineItems[0];
                         switch (type) {
                         case "D" -> {
+                            assert lineItems.length == 4 : "There must only be 4 fields";
                             Deadline d = new Deadline(lineItems[2], "D", lineItems[1], lineItems[3]);
                             taskHandler.getTasks().add(d);
                         }
                         case "E" -> {
+                            assert lineItems.length == 5 : "There must only be 5 fields";
                             Event e = new Event(lineItems[2], "E", lineItems[1], lineItems[3], lineItems[4]);
                             taskHandler.getTasks().add(e);
                         }
                         default -> {
+                            assert lineItems.length == 3 : "There must only be 3 fields";
                             Task t = new Task(lineItems[2], "T", lineItems[1]);
                             taskHandler.getTasks().add(t);
                         }
