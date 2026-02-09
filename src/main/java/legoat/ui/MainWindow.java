@@ -36,6 +36,8 @@ public class MainWindow {
 
     public void setLeGoat(LeGoatOutputHandler leGoat) {
         this.leGoat = leGoat;
+        String welcomeMessage = "Hi, i'm,\n" + StringFormat.LOGO_STRING;
+        dialogContainer.getChildren().add(DialogBox.getLeGoatLogoDialog(welcomeMessage, leGoatImage));
     }
 
     @FXML

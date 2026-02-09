@@ -54,6 +54,15 @@ public class DialogBox extends HBox {
         return db;
     }
 
+    public static DialogBox getLeGoatLogoDialog(String text, Image img) {
+        DialogBox db = new DialogBox();
+        db.initialize(text, img);
+        db.flip();
+        db.dialog.getStyleClass().add("logo-label");
+        db.dialog.setWrapText(false);
+        return db;
+    }
+
     /**
      * Flips the dialog box such that the ImageView is on the left and text on the right.
      */

@@ -12,6 +12,11 @@
     -fx-border-radius: 1em 1em 1em 0;
 }
 
+.logo-label {
+    -fx-font-family: "Courier New", monospace;
+    -fx-font-size: 12px;
+}
+
 #displayPicture {
     /* Shadow effect on image. */
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0.5, 5, 5);
