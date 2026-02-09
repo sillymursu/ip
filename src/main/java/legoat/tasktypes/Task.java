@@ -33,7 +33,7 @@ public class Task {
     * @since v0.1
     */
     public void unmark() {
-        this.taskStatus = " ";
+        this.taskStatus = "  ";
     }
 
     /**
