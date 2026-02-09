@@ -7,10 +7,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import legoat.legoatui.Ui;
 import legoat.tasktypes.Deadline;
 import legoat.tasktypes.Event;
 import legoat.tasktypes.Task;
+import legoat.ui.StringFormat;
 
 /**
 * DataHandler handles all data related events.
@@ -19,18 +19,6 @@ import legoat.tasktypes.Task;
 */
 public class DataHandler {
     private File savedPath;
-    private final Ui format;
-    private final TaskHandler taskHandler;
-
-    /**
-    * <p>Constructor for DataHandler objects.
-    * @param taskHandler Instance of class that handles all events related to Tasks.
-    * @since v0.1
-    */
-    public DataHandler(TaskHandler taskHandler) {
-        this.format = new Ui();
-        this.taskHandler = taskHandler;
-    }
 
     /**
     * <p>Saves the current list of tasks to data/LeGoatData.txt on any change to tasks.
@@ -64,8 +52,7 @@ public class DataHandler {
                 System.out.println("\nSaved successfully!!!");
             }
         } catch (IOException e) {
-            System.err.println(format.longLineString + "\n\n" + format.leGoatString
-                    + "Save FAILED!!!" + "\n\n" + format.longLineString);
+            System.err.println(StringFormat.LEGOAT_STRING + "Save FAILED!!!");
         }
     }
 
@@ -73,7 +60,7 @@ public class DataHandler {
     * <p>Loads the list of tasks in data/LeGoatData.txt on LeGoat startup.
     * @since v0.1
     */
-    public void loadData() {
+    public void loadData(TaskHandler taskHandler) {
         try {
             this.savedPath = new File("data/LeGoatData.txt");
             if (!savedPath.exists()) {
@@ -85,23 +72,22 @@ public class DataHandler {
                         switch (type) {
                         case "D" -> {
                             Deadline d = new Deadline(lineItems[2], "D", lineItems[1], lineItems[3]);
-                            this.taskHandler.getTasks().add(d);
+                            taskHandler.getTasks().add(d);
                         }
                         case "E" -> {
                             Event e = new Event(lineItems[2], "E", lineItems[1], lineItems[3], lineItems[4]);
-                            this.taskHandler.getTasks().add(e);
+                            taskHandler.getTasks().add(e);
                         }
                         default -> {
                             Task t = new Task(lineItems[2], "T", lineItems[1]);
-                            this.taskHandler.getTasks().add(t);
+                            taskHandler.getTasks().add(t);
                         }
                         }
                     }
                 }
             }
         } catch (FileNotFoundException e) {
-            System.err.println(format.longLineString + "\n\n" + format.leGoatString
-                    + "Load FAILED!!!" + "\n\n" + format.longLineString);
+            System.err.println(StringFormat.LEGOAT_STRING + "Load FAILED!!!");
         }
     }
 }

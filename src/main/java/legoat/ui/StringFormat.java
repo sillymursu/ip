@@ -1,15 +1,16 @@
-package legoat.legoatui;
+package legoat.ui;
+
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
-* Ui is a data class that stores all User Interface elements.
+* Ui is a data class that stores String formatting elements.
 *
 * @author Russell Lin
 */
-public class Ui {
-    public final String logoString = """
+public class StringFormat {
+    public static final String LOGO_STRING = """
                        _      ___    ____    _____     ___    _______
                       | |    |  _|  / ___\\  / / \\ \\   / _ \\  |__   __|
                       | |    | |_  / / ___  | | | |  / /_\\ \\    | |
@@ -17,19 +18,18 @@ public class Ui {
                       | |___ |_|_   \\ \\_| | | \\_/ | | |   | |   | |   _
                       |____/ |___|   \\___/  \\_____/ |_|   |_|   |_|  |_|
                       """;
-    public final String byeString = "LeGoat logging off!";
-    public final String longLineString = "--------------------------------------------------";
-    public final String leGoatString = "LeGoat: ";
-    public final String deadlineFormatReminderString = """
+    public static final String BYE_STRING = "LeGoat logging off!";
+    public static final String LEGOAT_STRING = "LeGoat: ";
+    public static final String DEADLINE_REMINDER_STRING = """
 
                                 PS: If you want "/by" to be formatted:
                                     yyyy mm dd <24h time>""";
-    public final String eventFormatReminderString = """
+    public static final String EVENT_REMINDER_STRING = """
 
                                 PS: If you want "/from" or "/to" to be formatted:
                                     yyyy mm dd <24h time>""";
 
-    public Ui() {}
+    private StringFormat() {}
 
     /**
     * <p>Parses a String into a proper date.
@@ -39,7 +39,7 @@ public class Ui {
     * @throws DateTimeException
     * @since v0.1
     */
-    public String parseDate(String maybeDate) {
+    public static String parseDate(String maybeDate) {
         try {
             DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("yyyy MM dd HHmm");
             DateTimeFormatter outputFormat = DateTimeFormatter.ofPattern("MMM yyyy hh:mm a");
@@ -59,7 +59,7 @@ public class Ui {
     * @return suffix of specified day of a month
     * @since v0.1
     */
-    public String getDaySuffix(int day) {
+    public static String getDaySuffix(int day) {
         if (day >= 11 && day <= 13) {
             return "th";
         }
