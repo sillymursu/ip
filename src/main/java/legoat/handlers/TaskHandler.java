@@ -67,6 +67,16 @@ public class TaskHandler {
                 String s = lineNumber + ". " + t.toString();
                 sb.append(s);
             }
+            String output = StringFormat.LEGOAT_STRING + "The list is currently empty! Add some Tasks first!!";
+            return output;
+        } else {
+            StringBuilder sb = new StringBuilder();
+            int lineNumber = 0;
+            assert !tasks.isEmpty() : "List of tasks must not be empty";
+            for (Task t : tasks) {
+                lineNumber += 1;
+                String s = lineNumber + ". " + getTaskBasedOnType(t).toString() + "\n";
+                sb.append(s);
             }
         }
         return sb.toString().trim();
@@ -75,7 +85,6 @@ public class TaskHandler {
     /**
     * <p>Marks/Unmarks a task based off input.
     * @param input User input is stored as a String[], input[0] is used to decide which command runs
-    * @return String of the task marked/unmarked
     * @throws NumberFormatException
     * @throws IndexOutOfBoundsException
     * @since v0.2
@@ -85,6 +94,9 @@ public class TaskHandler {
         try {
             int lineNum = Integer.parseInt(input[1]) - 1;
             Task t = tasks.get(lineNum);
+            assert lineNum >= 0 : "Line number must be positive";
+            assert lineNum < tasks.size() : "Line number must not be out of bounds";
+            Task t = getTasks().get(lineNum);
             if (input[0].equals("mark")) {
                 if (t.getTaskStatus() == TaskStatus.COMPLETE) {
                     return StringFormat.LEGOAT_STRING + "Time Paradox? Task is already done!";
@@ -93,6 +105,9 @@ public class TaskHandler {
                     dataHandler.saveData(tasks);
                     return StringFormat.LEGOAT_STRING + "Easy work. Task completed!\n"
                             + t.toString();
+                    String output = StringFormat.LEGOAT_STRING + "Easy work. Task completed!\n"
+                            + t.toString();
+                    return output;
                 }
             } else {
                 if (t.getTaskStatus() == TaskStatus.INCOMPLETE) {
@@ -102,6 +117,9 @@ public class TaskHandler {
                     dataHandler.saveData(tasks);
                     return StringFormat.LEGOAT_STRING + "Electric Boogaloo. Task uncompleted!\n"
                             + t.toString();
+                    String output = StringFormat.LEGOAT_STRING + "Electric Boogaloo. Task uncompleted!\n"
+                            + t.toString();
+                    return output;
                 }
             }
         } catch (NumberFormatException e) {
@@ -128,6 +146,8 @@ public class TaskHandler {
                     + "The correct format is: \"todo <eventName>\"!";
         } else {
             Task t = new Task(taskName, TaskType.TODO, TaskStatus.INCOMPLETE);
+            assert !taskName.isEmpty() : "taskName must not be empty";
+            Task t = new Task(taskName, "T", "  ");
             tasks.add(t);
             dataHandler.saveData(tasks);
             return "Added Task @ index " + tasks.size() + ":\n" + t.toString();
@@ -172,6 +192,9 @@ public class TaskHandler {
                 reminder = StringFormat.DEADLINE_REMINDER_STRING;
             }
             Deadline d = new Deadline(taskName, TaskType.DEADLINE, TaskStatus.INCOMPLETE, taskDeadline);
+            assert !taskName.isEmpty() : "taskName must not be empty";
+            assert !taskDeadline.isEmpty() : "taskDeadline must not be empty";
+            Deadline d = new Deadline(taskName, "D", "  ", taskDeadline);
             tasks.add(d);
             this.dataHandler.saveData(tasks);
             return ("Added Deadline @ index " + tasks.size() + ":\n" + d.toString() + "\n" + reminder).trim();
@@ -234,6 +257,10 @@ public class TaskHandler {
                 reminder = StringFormat.EVENT_REMINDER_STRING;
             }
             Event e = new Event(taskName, TaskType.EVENT, TaskStatus.INCOMPLETE, taskBegin, taskEnd);
+            assert !taskName.isEmpty() : "taskName must not be empty";
+            assert !taskBegin.isEmpty() : "taskBegin must not be empty";
+            assert !taskEnd.isEmpty() : "taskEnd must not be empty";
+            Event e = new Event(taskName, "E", "  ", taskBegin, taskEnd);
             tasks.add(e);
             dataHandler.saveData(tasks);
             return ("Added Event @ index " + tasks.size() + ":\n" + e.toString() + "\n" + reminder).trim();
@@ -300,6 +327,8 @@ public class TaskHandler {
                         sb.append("\n");
                     }
                     }
+                    sb.append(getTaskBasedOnType(t).toString());
+                    sb.append("\n");
                 }
             }
             if (tasksFound != 0) {
@@ -310,12 +339,34 @@ public class TaskHandler {
                 } else {
                     return StringFormat.LEGOAT_STRING + "I found 1 task:\n"
                             + sb.toString().trim();
-
                 }
             } else {
                 return StringFormat.LEGOAT_STRING + "Uh oh! No tasks with keyword "
                         + input[1] + " were found!";
             }
+        }
+    }
+
+    /**
+    * <p>Gets correctly typed Tasks, Events, Deadlines from the list of tasks.
+    * @param t Selected Task
+    * @return Selected task
+    * @since v0.2
+    */
+    public Task getTaskBasedOnType(Task t) {
+        String taskType = t.getTaskType();
+        switch (taskType) {
+        case "D" -> {
+            Deadline d = (Deadline) t;
+            return d;
+        }
+        case "E" -> {
+            Event e = (Event) t;
+            return e;
+        }
+        default -> {
+            return t;
+        }
         }
     }
 }

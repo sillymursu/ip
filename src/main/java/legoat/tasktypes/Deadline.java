@@ -14,6 +14,7 @@ public class Deadline extends Task {
     */
     public Deadline(String taskName, TaskType taskType, TaskStatus taskStatus, String deadline) {
         super(taskName, taskType, taskStatus);
+        assert !deadline.isEmpty() : "deadline must not be empty";
         this.deadline = deadline;
     }
 

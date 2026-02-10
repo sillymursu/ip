@@ -15,6 +15,8 @@ public class Event extends Task {
     */
     public Event(String taskName, TaskType taskType, TaskStatus taskStatus, String begin, String end) {
         super(taskName, taskType, taskStatus);
+        assert !begin.isEmpty() : "Event beginning must not be empty!";
+        assert !end.isEmpty() : "Event ending must not be empty!";
         this.begin = begin;
         this.end = end;
     }
