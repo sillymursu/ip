@@ -25,7 +25,7 @@ public class DataHandler {
     * @param taskList ArrayList of Tasks
     * @since v0.1
     */
-    public void saveData(ArrayList<Task> taskList) {
+    public void saveData(ArrayList<Task> taskList) throws IOException {
         try {
             this.savedPath = new File("data/LeGoatData.txt");
             this.savedPath.getParentFile().mkdirs();
@@ -60,7 +60,7 @@ public class DataHandler {
     * <p>Loads the list of tasks in data/LeGoatData.txt on LeGoat startup.
     * @since v0.1
     */
-    public void loadData(TaskHandler taskHandler) {
+    public void loadData(TaskHandler taskHandler) throws FileNotFoundException {
         try {
             this.savedPath = new File("data/LeGoatData.txt");
             if (!savedPath.exists()) {

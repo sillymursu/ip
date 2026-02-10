@@ -1,5 +1,7 @@
 package legoat.handlers;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import legoat.tasktypes.Deadline;
@@ -21,7 +23,7 @@ public class TaskHandler {
     * Loads data of tasks on instance creation.
     * @since v0.2
     */
-    public TaskHandler() {
+    public TaskHandler() throws FileNotFoundException {
         this.loadTaskData();
     }
 
@@ -29,7 +31,7 @@ public class TaskHandler {
     * <p>Loads task data from "data\LeGoatData.txt" if applicable.
     * @since v0.2
     */
-    private void loadTaskData() {
+    private void loadTaskData() throws FileNotFoundException {
         dataHandler.loadData(this);
     }
 
@@ -88,32 +90,11 @@ public class TaskHandler {
     * @throws IndexOutOfBoundsException
     * @since v0.2
     */
-    public String markUnmark(String[] input) {
+    public String markUnmark(String[] input) throws NumberFormatException,
+                IndexOutOfBoundsException {
         try {
             int lineNum = Integer.parseInt(input[1]) - 1;
             Task t = getTasks().get(lineNum);
-            /*
-            String taskType = t.getTaskType();
-            String taskString;
-            switch (taskType) {
-            case "D" -> {
-                Deadline d = (Deadline) getTasks().get(lineNum);
-                taskString = d.toString();
-                dataHandler.saveData(tasks);
-                break;
-            }
-            case "E" -> {
-                Event e = (Event) getTasks().get(lineNum);
-                taskString = e.toString();
-                dataHandler.saveData(tasks);
-                break;
-            }
-            default -> {
-                taskString = t.toString();
-                dataHandler.saveData(tasks);
-            }
-            }
-            */
             if (input[0].equals("mark")) {
                 if (t.getTaskStatus().equals("X")) {
                     return StringFormat.LEGOAT_STRING + "Time Paradox? Task is already done!";
@@ -146,7 +127,7 @@ public class TaskHandler {
     * @param input User input is stored as a String[], input[0] is used to decide which command runs
     * @since v0.2
     */
-    public String addToDo(String[] input) {
+    public String addToDo(String[] input) throws IOException {
         StringBuilder tdName = new StringBuilder();
         for (int i = 1; i < input.length; i++) {
             tdName.append(" ");
@@ -169,7 +150,7 @@ public class TaskHandler {
     * @param input User input is stored as a String[], input[0] is used to decide which command runs
     * @since v0.1
     */
-    public String addDeadline(String[] input) {
+    public String addDeadline(String[] input) throws IOException {
         StringBuilder dName = new StringBuilder();
         StringBuilder dDate = new StringBuilder();
         int b = 1;
@@ -214,7 +195,7 @@ public class TaskHandler {
     * @param input User input is stored as a String[], input[0] is used to decide which command runs
     * @since v0.1
     */
-    public String addEvent(String[] input) {
+    public String addEvent(String[] input) throws IOException {
         StringBuilder eName = new StringBuilder();
         StringBuilder eFrom = new StringBuilder();
         StringBuilder eTo = new StringBuilder();
@@ -278,7 +259,7 @@ public class TaskHandler {
     * @param input User input is stored as a String[], input[0] is used to decide which command runs
     * @since v0.1
     */
-    public String deleteTask(String[] input) {
+    public String deleteTask(String[] input) throws IOException {
         try {
             int taskIndexToRemove = Integer.parseInt(input[1]) - 1;
             tasks.remove(taskIndexToRemove);

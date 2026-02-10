@@ -15,7 +15,11 @@ import legoat.ui.MainWindow;
 * @author Russell Lin
 */
 public class Main extends Application {
-    private final LeGoatOutputHandler leGoat = new LeGoatOutputHandler();
+    private final LeGoatOutputHandler leGoat;
+
+    public Main() throws IOException {
+        this.leGoat = new LeGoatOutputHandler();
+    }
 
     @Override
     @SuppressWarnings("CallToPrintStackTrace")

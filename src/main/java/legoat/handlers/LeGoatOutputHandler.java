@@ -1,5 +1,8 @@
 package legoat.handlers;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import legoat.ui.StringFormat;
 
 /**
@@ -8,14 +11,19 @@ import legoat.ui.StringFormat;
 * @author Russell Lin
 */
 public class LeGoatOutputHandler {
-    private final TaskHandler taskHandler = new TaskHandler();
+    private final TaskHandler taskHandler;
+
+    public LeGoatOutputHandler() throws FileNotFoundException {
+        this.taskHandler = new TaskHandler();
+    }
 
     /**
     * <p>Gets the output response for LeGoat.
     * @return String that LeGoat will use to reply to the user
     * @since v0.2
     */
-    public String getResponse(String[] input) {
+    public String getResponse(String[] input) throws FileNotFoundException,
+            IOException {
         return this.handleCommand(input);
     }
 
@@ -24,7 +32,8 @@ public class LeGoatOutputHandler {
     * @return String that LeGoat will use to reply to the user
     * @since v0.2
     */
-    public String handleCommand(String[] input) {
+    public String handleCommand(String[] input) throws FileNotFoundException,
+            IOException {
         return switch (input[0]) {
         case "bye" -> this.bye();
         case "list" -> taskHandler.list();
@@ -45,16 +54,7 @@ public class LeGoatOutputHandler {
     */
     public String handleUnknownCommand() {
         StringBuilder sb = new StringBuilder();
-        sb.append(StringFormat.LEGOAT_STRING + "Not something I can help with, brochacho.\n"
-                + "But, here is a list of valid commands:\n\n"
-                + "bye -> exit LeGoat\n"
-                + "list -> list current tasks\n"
-                + "todo -> add a Todo task!\n"
-                + "deadline -> add a Deadline task!\n"
-                + "event -> add an Event task!\n"
-                + "delete -> delete a task from the list!\n"
-                + "find -> find a task from the list!\n"
-        );
+        sb.append(StringFormat.LEGOAT_STRING + StringFormat.UNKNOWN_COMMAND_STRING);
         return sb.toString().trim();
     }
 
