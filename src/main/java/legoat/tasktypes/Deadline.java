@@ -12,7 +12,7 @@ public class Deadline extends Task {
     * <p>Constructor for Deadline objects.
     * @since v0.1
     */
-    public Deadline(String taskName, String taskType, String taskStatus, String deadline) {
+    public Deadline(String taskName, TaskType taskType, TaskStatus taskStatus, String deadline) {
         super(taskName, taskType, taskStatus);
         assert !deadline.isEmpty() : "deadline must not be empty";
         this.deadline = deadline;
@@ -34,8 +34,7 @@ public class Deadline extends Task {
     */
     @Override
     public String toString() {
-        String s = "[" + this.getTaskType() + "][" + this.getTaskStatus()
-                + "] " + this.getTaskName() + " (by: " + this.deadline + ")";
-        return s;
+        return "[" + getTaskType().getCode() + "][" + getTaskStatus().getSymbol()
+                + "] " + getTaskName() + " (by: " + deadline + ")";
     }
 }

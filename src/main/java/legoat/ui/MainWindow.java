@@ -1,5 +1,8 @@
 package legoat.ui;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -42,10 +45,11 @@ public class MainWindow {
 
     @FXML
     @SuppressWarnings("unused")
-    private void handleUserInput() {
+    private void handleUserInput() throws FileNotFoundException,
+            IOException {
         String rawInput = userInput.getText();
         String[] input = rawInput.split(" ");
-        String response = leGoat.getResponse(input);
+        String response = leGoat.handleCommand(input);
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(rawInput, userImage),
                 DialogBox.getLeGoatDialog(response, leGoatImage)

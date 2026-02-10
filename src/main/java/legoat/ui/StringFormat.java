@@ -28,8 +28,19 @@ public class StringFormat {
 
                                 PS: If you want "/from" or "/to" to be formatted:
                                     yyyy mm dd <24h time>""";
+    public static final String UNKNOWN_COMMAND_STRING =
+            """
+            Not something I can help with, brochacho.
+            But here is a list of valid commands:
 
-    private StringFormat() {}
+            bye -> exit LeGoat
+            list -> list current tasks
+            todo -> add a Todo task!
+            deadline -> add a Deadline task!
+            event -> add an Event task!
+            delete -> delete a task from the list!
+            find -> find a task from the list!
+            """;
 
     /**
     * <p>Parses a String into a proper date.

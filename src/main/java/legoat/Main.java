@@ -15,11 +15,14 @@ import legoat.ui.MainWindow;
 * @author Russell Lin
 */
 public class Main extends Application {
-    private final LeGoatOutputHandler leGoat = new LeGoatOutputHandler();
+    private final LeGoatOutputHandler leGoat;
+
+    public Main() throws IOException {
+        this.leGoat = new LeGoatOutputHandler();
+    }
 
     @Override
-    @SuppressWarnings("CallToPrintStackTrace")
-    public void start(Stage stage) {
+    public void start(Stage stage) throws RuntimeException {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/MainWindow.fxml"));
             AnchorPane ap = fxmlLoader.load();
@@ -29,7 +32,7 @@ public class Main extends Application {
             fxmlLoader.<MainWindow>getController().setLeGoat(leGoat);
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Failed to load FXML file", e);
         }
     }
 }
