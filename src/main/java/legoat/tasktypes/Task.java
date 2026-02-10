@@ -15,9 +15,9 @@ public class Task {
     * @since v0.2
     */
     public Task(String taskName, TaskType taskType, TaskStatus taskStatus) {
-    public Task(String taskName, String taskType, String taskStatus) {
-        assert !taskName.isEmpty() : "taskName must not be empty";
-        assert !taskType.isEmpty() : "taskType must not be empty";
+        assert !taskName.isEmpty() : "taskName must not be empty!";
+        assert taskType != null : "taskType must not be null!";
+        assert taskStatus != null : "taskStatus must not be null!";
         this.taskName = taskName;
         this.taskType = taskType;
         this.taskStatus = taskStatus;

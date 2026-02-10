@@ -48,36 +48,12 @@ public class TaskHandler {
             return StringFormat.LEGOAT_STRING + "The list is currently empty! Add some Tasks first!!";
         }
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < tasks.size(); i++) {
-            int lineNumber = i + 1;
-            TaskType taskType = tasks.get(i).getTaskType();
-            switch (taskType) {
-            case DEADLINE -> {
-                Deadline d = (Deadline) tasks.get(i);
-                String s = lineNumber + ". " + d.toString() + "\n";
-                sb.append(s);
-            }
-            case EVENT -> {
-                Event e = (Event) tasks.get(i);
-                String s = lineNumber + ". " + e.toString();
-                sb.append(s);
-            }
-            default -> {
-                Task t = tasks.get(i);
-                String s = lineNumber + ". " + t.toString();
-                sb.append(s);
-            }
-            String output = StringFormat.LEGOAT_STRING + "The list is currently empty! Add some Tasks first!!";
-            return output;
-        } else {
-            StringBuilder sb = new StringBuilder();
-            int lineNumber = 0;
-            assert !tasks.isEmpty() : "List of tasks must not be empty";
-            for (Task t : tasks) {
-                lineNumber += 1;
-                String s = lineNumber + ". " + getTaskBasedOnType(t).toString() + "\n";
-                sb.append(s);
-            }
+        assert !tasks.isEmpty() : "List of tasks must not be empty";
+        int lineNumber = 0;
+        for (Task t : tasks) {
+            lineNumber++;
+            String s = lineNumber + ". " + getTaskBasedOnType(t).toString() + "\n";
+            sb.append(s);
         }
         return sb.toString().trim();
     }
@@ -93,10 +69,9 @@ public class TaskHandler {
                 IndexOutOfBoundsException, IOException {
         try {
             int lineNum = Integer.parseInt(input[1]) - 1;
-            Task t = tasks.get(lineNum);
             assert lineNum >= 0 : "Line number must be positive";
             assert lineNum < tasks.size() : "Line number must not be out of bounds";
-            Task t = getTasks().get(lineNum);
+            Task t = tasks.get(lineNum);
             if (input[0].equals("mark")) {
                 if (t.getTaskStatus() == TaskStatus.COMPLETE) {
                     return StringFormat.LEGOAT_STRING + "Time Paradox? Task is already done!";
@@ -105,9 +80,6 @@ public class TaskHandler {
                     dataHandler.saveData(tasks);
                     return StringFormat.LEGOAT_STRING + "Easy work. Task completed!\n"
                             + t.toString();
-                    String output = StringFormat.LEGOAT_STRING + "Easy work. Task completed!\n"
-                            + t.toString();
-                    return output;
                 }
             } else {
                 if (t.getTaskStatus() == TaskStatus.INCOMPLETE) {
@@ -117,9 +89,6 @@ public class TaskHandler {
                     dataHandler.saveData(tasks);
                     return StringFormat.LEGOAT_STRING + "Electric Boogaloo. Task uncompleted!\n"
                             + t.toString();
-                    String output = StringFormat.LEGOAT_STRING + "Electric Boogaloo. Task uncompleted!\n"
-                            + t.toString();
-                    return output;
                 }
             }
         } catch (NumberFormatException e) {
@@ -145,9 +114,8 @@ public class TaskHandler {
             return StringFormat.LEGOAT_STRING
                     + "The correct format is: \"todo <eventName>\"!";
         } else {
-            Task t = new Task(taskName, TaskType.TODO, TaskStatus.INCOMPLETE);
             assert !taskName.isEmpty() : "taskName must not be empty";
-            Task t = new Task(taskName, "T", "  ");
+            Task t = new Task(taskName, TaskType.TODO, TaskStatus.INCOMPLETE);
             tasks.add(t);
             dataHandler.saveData(tasks);
             return "Added Task @ index " + tasks.size() + ":\n" + t.toString();
@@ -191,10 +159,9 @@ public class TaskHandler {
             } else {
                 reminder = StringFormat.DEADLINE_REMINDER_STRING;
             }
-            Deadline d = new Deadline(taskName, TaskType.DEADLINE, TaskStatus.INCOMPLETE, taskDeadline);
             assert !taskName.isEmpty() : "taskName must not be empty";
             assert !taskDeadline.isEmpty() : "taskDeadline must not be empty";
-            Deadline d = new Deadline(taskName, "D", "  ", taskDeadline);
+            Deadline d = new Deadline(taskName, TaskType.DEADLINE, TaskStatus.INCOMPLETE, taskDeadline);
             tasks.add(d);
             this.dataHandler.saveData(tasks);
             return ("Added Deadline @ index " + tasks.size() + ":\n" + d.toString() + "\n" + reminder).trim();
@@ -256,11 +223,10 @@ public class TaskHandler {
             if (taskBeginDate.equals("") || taskEndDate.equals("")) {
                 reminder = StringFormat.EVENT_REMINDER_STRING;
             }
-            Event e = new Event(taskName, TaskType.EVENT, TaskStatus.INCOMPLETE, taskBegin, taskEnd);
             assert !taskName.isEmpty() : "taskName must not be empty";
             assert !taskBegin.isEmpty() : "taskBegin must not be empty";
             assert !taskEnd.isEmpty() : "taskEnd must not be empty";
-            Event e = new Event(taskName, "E", "  ", taskBegin, taskEnd);
+            Event e = new Event(taskName, TaskType.EVENT, TaskStatus.INCOMPLETE, taskBegin, taskEnd);
             tasks.add(e);
             dataHandler.saveData(tasks);
             return ("Added Event @ index " + tasks.size() + ":\n" + e.toString() + "\n" + reminder).trim();
@@ -354,13 +320,13 @@ public class TaskHandler {
     * @since v0.2
     */
     public Task getTaskBasedOnType(Task t) {
-        String taskType = t.getTaskType();
+        TaskType taskType = t.getTaskType();
         switch (taskType) {
-        case "D" -> {
+        case DEADLINE -> {
             Deadline d = (Deadline) t;
             return d;
         }
-        case "E" -> {
+        case EVENT -> {
             Event e = (Event) t;
             return e;
         }
