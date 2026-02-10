@@ -13,7 +13,7 @@ public class Event extends Task {
     * <p>Constructor for Event objects.
     * @since v0.1
     */
-    public Event(String taskName, String taskType, String taskStatus, String begin, String end) {
+    public Event(String taskName, TaskType taskType, TaskStatus taskStatus, String begin, String end) {
         super(taskName, taskType, taskStatus);
         this.begin = begin;
         this.end = end;
@@ -43,7 +43,7 @@ public class Event extends Task {
     */
     @Override
     public String toString() {
-        return "[" + this.getTaskType() + "][" + this.getTaskStatus()
-                + "] " + this.getTaskName() + " (from: " + this.begin + " | to: " + this.end + ")";
+        return "[" + getTaskType().getCode() + "][" + getTaskStatus().getSymbol()
+                + "] " + getTaskName() + " (from: " + begin + " | to: " + end + ")";
     }
 }

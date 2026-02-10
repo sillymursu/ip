@@ -18,16 +18,6 @@ public class LeGoatOutputHandler {
     }
 
     /**
-    * <p>Gets the output response for LeGoat.
-    * @return String that LeGoat will use to reply to the user
-    * @since v0.2
-    */
-    public String getResponse(String[] input) throws FileNotFoundException,
-            IOException {
-        return this.handleCommand(input);
-    }
-
-    /**
     * <p>Identifies the command that the user wants to issue to LeGoat.
     * @return String that LeGoat will use to reply to the user
     * @since v0.2
@@ -53,9 +43,7 @@ public class LeGoatOutputHandler {
     * @since v0.2
     */
     public String handleUnknownCommand() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(StringFormat.LEGOAT_STRING + StringFormat.UNKNOWN_COMMAND_STRING);
-        return sb.toString().trim();
+        return StringFormat.LEGOAT_STRING + StringFormat.UNKNOWN_COMMAND_STRING;
     }
 
     /**
@@ -64,7 +52,6 @@ public class LeGoatOutputHandler {
     * @since v0.2
     */
     public String bye() {
-        String output = StringFormat.LEGOAT_STRING + StringFormat.BYE_STRING;
-        return output;
+        return StringFormat.LEGOAT_STRING + StringFormat.BYE_STRING;
     }
 }

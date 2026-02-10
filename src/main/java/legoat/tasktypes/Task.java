@@ -7,33 +7,33 @@ package legoat.tasktypes;
 */
 public class Task {
     private final String taskName;
-    private final String taskType;
-    private String taskStatus;
+    private final TaskType taskType;
+    private TaskStatus taskStatus;
 
     /**
     * <p>Constructor for Task objects.
-    * @since v0.1
+    * @since v0.2
     */
-    public Task(String taskName, String taskType, String taskStatus) {
+    public Task(String taskName, TaskType taskType, TaskStatus taskStatus) {
         this.taskName = taskName;
         this.taskType = taskType;
         this.taskStatus = taskStatus;
     }
 
     /**
-    * <p>Sets the "taskStatus" field of an instance of Task to "X"
-    * @since v0.1
+    * <p>Sets the "taskStatus" field of an instance of Task to COMPLETE
+    * @since v0.2
     */
     public void mark() {
-        this.taskStatus = "X";
+        this.taskStatus = TaskStatus.COMPLETE;
     }
 
     /**
-    * <p>Sets the "taskStatus" field of an instance of Task to " "
-    * @since v0.1
+    * <p>Sets the "taskStatus" field of an instance of Task to INCOMPLETE
+    * @since v0.2
     */
     public void unmark() {
-        this.taskStatus = "  ";
+        this.taskStatus = TaskStatus.INCOMPLETE;
     }
 
     /**
@@ -47,19 +47,19 @@ public class Task {
 
     /**
     * <p>Getter method that returns the "taskType" field of an instance of Task.
-    * @return String of the "taskType" field of an instance of Task
-    * @since v0.1
+    * @return TaskType of an instance of Task
+    * @since v0.2
     */
-    public String getTaskType() {
+    public TaskType getTaskType() {
         return this.taskType;
     }
 
     /**
     * <p>Getter method that returns the "taskStatus" field of an instance of Task.
-    * @return String of the "taskStatus" field of an instance of Task
-    * @since v0.1
+    * @return TaskStatus of an instance of Task
+    * @since v0.2
     */
-    public String getTaskStatus() {
+    public TaskStatus getTaskStatus() {
         return this.taskStatus;
     }
 
@@ -70,6 +70,6 @@ public class Task {
     */
     @Override
     public String toString() {
-        return "[" + this.taskType + "][" + this.taskStatus + "] " + this.taskName;
+        return "[" + taskType.getCode() + "][" + taskStatus.getSymbol() + "] " + this.taskName;
     }
 }

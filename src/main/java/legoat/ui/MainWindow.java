@@ -49,7 +49,7 @@ public class MainWindow {
             IOException {
         String rawInput = userInput.getText();
         String[] input = rawInput.split(" ");
-        String response = leGoat.getResponse(input);
+        String response = leGoat.handleCommand(input);
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(rawInput, userImage),
                 DialogBox.getLeGoatDialog(response, leGoatImage)

@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import legoat.tasktypes.Deadline;
 import legoat.tasktypes.Event;
 import legoat.tasktypes.Task;
+import legoat.tasktypes.TaskStatus;
+import legoat.tasktypes.TaskType;
 import legoat.ui.StringFormat;
 
 /**
@@ -15,7 +17,7 @@ import legoat.ui.StringFormat;
 * @author Russell Lin
 */
 public class TaskHandler {
-    private final ArrayList<Task> tasks = new ArrayList<>();
+    final ArrayList<Task> tasks = new ArrayList<>();
     private final DataHandler dataHandler = new DataHandler();
 
     /**
@@ -36,15 +38,6 @@ public class TaskHandler {
     }
 
     /**
-    * <p>Getter method that returns a list of tasks.
-    * @return ArrayList of tasks
-    * @since v0.1
-    */
-    public ArrayList<Task> getTasks() {
-        return this.tasks;
-    }
-
-    /**
     * <p>Function called when user input is "list", prints a list of added tasks unless
     *  current list of tasks is empty.
     * @return A list of current tasks as a String
@@ -52,34 +45,31 @@ public class TaskHandler {
     */
     public String list() {
         if (tasks.isEmpty()) {
-            String output = StringFormat.LEGOAT_STRING + "The list is currently empty! Add some Tasks first!!";
-            return output;
-        } else {
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < tasks.size(); i++) {
-                int lineNumber = i + 1;
-                String taskType = tasks.get(i).getTaskType();
-                switch (taskType) {
-                case "D" -> {
-                    Deadline d = (Deadline) tasks.get(i);
-                    String s = lineNumber + ". " + d.toString() + "\n";
-                    sb.append(s);
-                }
-                case "E" -> {
-                    Event e = (Event) tasks.get(i);
-                    String s = lineNumber + ". " + e.toString();
-                    sb.append(s);
-                }
-                default -> {
-                    Task t = tasks.get(i);
-                    String s = lineNumber + ". " + t.toString();
-                    sb.append(s);
-                }
-                }
-            }
-            String output = sb.toString().trim();
-            return output;
+            return StringFormat.LEGOAT_STRING + "The list is currently empty! Add some Tasks first!!";
         }
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < tasks.size(); i++) {
+            int lineNumber = i + 1;
+            TaskType taskType = tasks.get(i).getTaskType();
+            switch (taskType) {
+            case DEADLINE -> {
+                Deadline d = (Deadline) tasks.get(i);
+                String s = lineNumber + ". " + d.toString() + "\n";
+                sb.append(s);
+            }
+            case EVENT -> {
+                Event e = (Event) tasks.get(i);
+                String s = lineNumber + ". " + e.toString();
+                sb.append(s);
+            }
+            default -> {
+                Task t = tasks.get(i);
+                String s = lineNumber + ". " + t.toString();
+                sb.append(s);
+            }
+            }
+        }
+        return sb.toString().trim();
     }
 
     /**
@@ -91,25 +81,27 @@ public class TaskHandler {
     * @since v0.2
     */
     public String markUnmark(String[] input) throws NumberFormatException,
-                IndexOutOfBoundsException {
+                IndexOutOfBoundsException, IOException {
         try {
             int lineNum = Integer.parseInt(input[1]) - 1;
             Task t = tasks.get(lineNum);
             if (input[0].equals("mark")) {
-                if (t.getTaskStatus().equals("X")) {
+                if (t.getTaskStatus() == TaskStatus.COMPLETE) {
                     return StringFormat.LEGOAT_STRING + "Time Paradox? Task is already done!";
                 } else {
                     t.mark();
+                    dataHandler.saveData(tasks);
                     return StringFormat.LEGOAT_STRING + "Easy work. Task completed!\n"
-                            + "   " + t.toString();
+                            + t.toString();
                 }
             } else {
-                if (t.getTaskStatus().equals("  ")) {
+                if (t.getTaskStatus() == TaskStatus.INCOMPLETE) {
                     return StringFormat.LEGOAT_STRING + "Time Paradox? Task is not yet done!";
                 } else {
                     t.unmark();
+                    dataHandler.saveData(tasks);
                     return StringFormat.LEGOAT_STRING + "Electric Boogaloo. Task uncompleted!\n"
-                            + "   " + t.toString();
+                            + t.toString();
                 }
             }
         } catch (NumberFormatException e) {
@@ -135,7 +127,7 @@ public class TaskHandler {
             return StringFormat.LEGOAT_STRING
                     + "The correct format is: \"todo <eventName>\"!";
         } else {
-            Task t = new Task(taskName, "T", "  ");
+            Task t = new Task(taskName, TaskType.TODO, TaskStatus.INCOMPLETE);
             tasks.add(t);
             dataHandler.saveData(tasks);
             return "Added Task @ index " + tasks.size() + ":\n" + t.toString();
@@ -179,11 +171,10 @@ public class TaskHandler {
             } else {
                 reminder = StringFormat.DEADLINE_REMINDER_STRING;
             }
-            Deadline d = new Deadline(taskName, "D", "  ", taskDeadline);
+            Deadline d = new Deadline(taskName, TaskType.DEADLINE, TaskStatus.INCOMPLETE, taskDeadline);
             tasks.add(d);
             this.dataHandler.saveData(tasks);
-            String output = "Added Deadline @ index " + tasks.size() + ":\n" + d.toString() + "\n" + reminder;
-            return output.trim();
+            return ("Added Deadline @ index " + tasks.size() + ":\n" + d.toString() + "\n" + reminder).trim();
         }
     }
 
@@ -242,11 +233,10 @@ public class TaskHandler {
             if (taskBeginDate.equals("") || taskEndDate.equals("")) {
                 reminder = StringFormat.EVENT_REMINDER_STRING;
             }
-            Event e = new Event(taskName, "E", "  ", taskBegin, taskEnd);
+            Event e = new Event(taskName, TaskType.EVENT, TaskStatus.INCOMPLETE, taskBegin, taskEnd);
             tasks.add(e);
             dataHandler.saveData(tasks);
-            String output = "Added Event @ index " + tasks.size() + ":\n" + e.toString() + "\n" + reminder;
-            return output.trim();
+            return ("Added Event @ index " + tasks.size() + ":\n" + e.toString() + "\n" + reminder).trim();
         }
     }
 
@@ -264,11 +254,11 @@ public class TaskHandler {
             if (tasks.size() == 1) {
                 return StringFormat.LEGOAT_STRING
                         + "Task deleted!!" + "\n" + StringFormat.LEGOAT_STRING + "You have "
-                        + getTasks().size() + " Task left!!";
+                        + tasks.size() + " Task left!!";
             } else {
                 return StringFormat.LEGOAT_STRING
                         + "Task deleted!!" + "\n" + StringFormat.LEGOAT_STRING + "You have "
-                        + getTasks().size() + " Tasks left!!";
+                        + tasks.size() + " Tasks left!!";
             }
         } catch (NumberFormatException | IndexOutOfBoundsException e) {
             return StringFormat.LEGOAT_STRING
@@ -289,18 +279,18 @@ public class TaskHandler {
                     + "You can only find (1) keyword!";
         } else {
             int tasksFound = 0;
-            for (Task t : getTasks()) {
+            for (Task t : tasks) {
                 String taskName = t.getTaskName();
                 if (taskName.contains(input[1])) {
                     tasksFound++;
-                    String taskType = t.getTaskType();
+                    TaskType taskType = t.getTaskType();
                     switch (taskType) {
-                    case "D" -> {
+                    case DEADLINE -> {
                         Deadline d = (Deadline) t;
                         sb.append(d.toString());
                         sb.append("\n");
                     }
-                    case "E" -> {
+                    case EVENT -> {
                         Event e = (Event) t;
                         sb.append(e.toString());
                         sb.append("\n");
