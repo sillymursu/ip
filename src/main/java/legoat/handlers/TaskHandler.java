@@ -94,32 +94,29 @@ public class TaskHandler {
                 IndexOutOfBoundsException {
         try {
             int lineNum = Integer.parseInt(input[1]) - 1;
-            Task t = getTasks().get(lineNum);
+            Task t = tasks.get(lineNum);
             if (input[0].equals("mark")) {
                 if (t.getTaskStatus().equals("X")) {
                     return StringFormat.LEGOAT_STRING + "Time Paradox? Task is already done!";
                 } else {
                     t.mark();
-                    String output = StringFormat.LEGOAT_STRING + "Easy work. Task completed!\n"
+                    return StringFormat.LEGOAT_STRING + "Easy work. Task completed!\n"
                             + "   " + t.toString();
-                    return output;
                 }
             } else {
                 if (t.getTaskStatus().equals("  ")) {
                     return StringFormat.LEGOAT_STRING + "Time Paradox? Task is not yet done!";
                 } else {
                     t.unmark();
-                    String output = StringFormat.LEGOAT_STRING + "Electric Boogaloo. Task uncompleted!\n"
+                    return StringFormat.LEGOAT_STRING + "Electric Boogaloo. Task uncompleted!\n"
                             + "   " + t.toString();
-                    return output;
                 }
             }
         } catch (NumberFormatException e) {
-            System.err.println(StringFormat.LEGOAT_STRING + "Second Argument is not a number!!");
+            return StringFormat.LEGOAT_STRING + "Second Argument is not a number!!";
         } catch (IndexOutOfBoundsException e) {
-            System.err.println(StringFormat.LEGOAT_STRING + "Second Argument is not a valid number!!");
+            return StringFormat.LEGOAT_STRING + "Second Argument is not a valid number!!";
         }
-        return null;
     }
 
     /**

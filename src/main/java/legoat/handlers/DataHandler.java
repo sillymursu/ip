@@ -63,8 +63,7 @@ public class DataHandler {
     public void loadData(TaskHandler taskHandler) throws FileNotFoundException {
         try {
             this.savedPath = new File("data/LeGoatData.txt");
-            if (!savedPath.exists()) {
-            } else {
+            if (savedPath.exists()) {
                 try (Scanner dataReader = new Scanner(this.savedPath)) {
                     while (dataReader.hasNextLine()) {
                         String[] lineItems = dataReader.nextLine().split(" \\| ");

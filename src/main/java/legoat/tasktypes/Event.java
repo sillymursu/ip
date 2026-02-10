@@ -43,8 +43,7 @@ public class Event extends Task {
     */
     @Override
     public String toString() {
-        String s = "[" + this.getTaskType() + "][" + this.getTaskStatus()
+        return "[" + this.getTaskType() + "][" + this.getTaskStatus()
                 + "] " + this.getTaskName() + " (from: " + this.begin + " | to: " + this.end + ")";
-        return s;
     }
 }

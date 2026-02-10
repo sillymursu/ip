@@ -70,7 +70,6 @@ public class Task {
     */
     @Override
     public String toString() {
-        String s = "[" + this.taskType + "][" + this.taskStatus + "] " + this.taskName;
-        return s;
+        return "[" + this.taskType + "][" + this.taskStatus + "] " + this.taskName;
     }
 }
