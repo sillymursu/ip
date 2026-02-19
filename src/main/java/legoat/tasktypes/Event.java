@@ -1,13 +1,15 @@
 package legoat.tasktypes;
 
+import legoat.ui.StringFormat;
+
 /**
 * Event is a subtype of Task, that has an extra "begin" field and "end" field.
 *
 * @author Russell Lin
 */
 public class Event extends Task {
-    private final String begin;
-    private final String end;
+    private String begin;
+    private String end;
 
     /**
     * <p>Constructor for Event objects.
@@ -19,6 +21,38 @@ public class Event extends Task {
         assert !end.isEmpty() : "Event ending must not be empty!";
         this.begin = begin;
         this.end = end;
+    }
+
+    /**
+    * <p>Method that changes the "begin" or "end" field of an instance of Event.
+    * @since v0.3
+    */
+    public void changeEvent(String[] input) {
+        String fieldToUpdate = input[3];
+        StringBuilder eField = new StringBuilder();
+        for (int j = 4; j < input.length; j++) {
+            eField.append(" ");
+            eField.append(input[j]);
+        }
+        String updatedField = eField.toString().trim();
+        String updatedFieldDate = StringFormat.parseDate(updatedField);
+        switch (fieldToUpdate) {
+        case "/from" -> {
+            if (updatedFieldDate.equals("")) {
+                this.begin = updatedField;
+            } else {
+                this.begin = updatedFieldDate;
+            }
+        }
+        case "/to" -> {
+            if (updatedFieldDate.equals("")) {
+                this.end = updatedField;
+            } else {
+                this.end = updatedFieldDate;
+            }
+        }
+        default -> { }
+        }
     }
 
     /**

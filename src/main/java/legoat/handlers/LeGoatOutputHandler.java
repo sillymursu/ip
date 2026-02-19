@@ -33,6 +33,7 @@ public class LeGoatOutputHandler {
         case "event" -> taskHandler.addEvent(input);
         case "delete" -> taskHandler.deleteTask(input);
         case "find" -> taskHandler.find(input);
+        case "update" -> taskHandler.update(input);
         default -> this.handleUnknownCommand();
         };
     }
@@ -43,7 +44,7 @@ public class LeGoatOutputHandler {
     * @since v0.2
     */
     public String handleUnknownCommand() {
-        return StringFormat.LEGOAT_STRING + StringFormat.UNKNOWN_COMMAND_STRING;
+        return StringFormat.UNKNOWN_COMMAND_STRING;
     }
 
     /**
@@ -52,6 +53,6 @@ public class LeGoatOutputHandler {
     * @since v0.2
     */
     public String bye() {
-        return StringFormat.LEGOAT_STRING + StringFormat.BYE_STRING;
+        return StringFormat.BYE_STRING;
     }
 }

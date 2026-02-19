@@ -1,12 +1,13 @@
 package legoat.tasktypes;
 
+import legoat.ui.StringFormat;
 /**
 * Deadline is a subtype of Task, that has an extra "deadline" field.
 *
 * @author Russell Lin
 */
 public class Deadline extends Task {
-    private final String deadline;
+    private String deadline;
 
     /**
     * <p>Constructor for Deadline objects.
@@ -16,6 +17,25 @@ public class Deadline extends Task {
         super(taskName, taskType, taskStatus);
         assert !deadline.isEmpty() : "deadline must not be empty";
         this.deadline = deadline;
+    }
+
+    /**
+    * <p>Method that changes the "deadline" field of an instance of Deadline.
+    * @since v0.3
+    */
+    public void changeDeadline(String[] input) {
+        StringBuilder dDate = new StringBuilder();
+        for (int j = 3; j < input.length; j++) {
+            dDate.append(" ");
+            dDate.append(input[j]);
+        }
+        String updatedDeadline = dDate.toString().trim();
+        String updatedDeadlineDate = StringFormat.parseDate(updatedDeadline);
+        if (updatedDeadlineDate.equals("")) {
+            this.deadline = updatedDeadline;
+        } else {
+            this.deadline = updatedDeadlineDate;
+        }
     }
 
     /**

@@ -12,7 +12,6 @@ import legoat.tasktypes.Event;
 import legoat.tasktypes.Task;
 import legoat.tasktypes.TaskStatus;
 import legoat.tasktypes.TaskType;
-import legoat.ui.StringFormat;
 
 /**
 * DataHandler handles all data related events.
@@ -93,7 +92,7 @@ public class DataHandler {
                 }
             }
         } catch (FileNotFoundException e) {
-            System.err.println(StringFormat.LEGOAT_STRING + "Load FAILED!!!");
+            System.err.println("Load FAILED!!!");
         }
     }
 }
