@@ -6,7 +6,7 @@ package legoat.tasktypes;
 * @author Russell Lin
 */
 public class Task {
-    private final String taskName;
+    private String taskName;
     private final TaskType taskType;
     private TaskStatus taskStatus;
 
@@ -37,6 +37,20 @@ public class Task {
     */
     public void unmark() {
         this.taskStatus = TaskStatus.INCOMPLETE;
+    }
+
+    /**
+    * <p>Method that changes the "taskName" field of an instance of Task.
+    * @since v0.3
+    */
+    public void changeName(String[] input) {
+        StringBuilder tdName = new StringBuilder();
+        for (int i = 3; i < input.length; i++) {
+            tdName.append(" ");
+            tdName.append(input[i]);
+        }
+        String updatedName = tdName.toString().trim();
+        this.taskName = updatedName;
     }
 
     /**

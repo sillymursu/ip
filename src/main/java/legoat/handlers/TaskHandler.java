@@ -45,7 +45,7 @@ public class TaskHandler {
     */
     public String list() {
         if (tasks.isEmpty()) {
-            return StringFormat.LEGOAT_STRING + "The list is currently empty! Add some Tasks first!!";
+            return StringFormat.EMPTY_LIST_STRING;
         }
         StringBuilder sb = new StringBuilder();
         assert !tasks.isEmpty() : "List of tasks must not be empty";
@@ -74,27 +74,27 @@ public class TaskHandler {
             Task t = tasks.get(lineNum);
             if (input[0].equals("mark")) {
                 if (t.getTaskStatus() == TaskStatus.COMPLETE) {
-                    return StringFormat.LEGOAT_STRING + "Time Paradox? Task is already done!";
+                    return StringFormat.COMPLETED_ALREADY_STRING;
                 } else {
                     t.mark();
                     dataHandler.saveData(tasks);
-                    return StringFormat.LEGOAT_STRING + "Easy work. Task completed!\n"
+                    return "Easy work. Task completed!\n"
                             + t.toString();
                 }
             } else {
                 if (t.getTaskStatus() == TaskStatus.INCOMPLETE) {
-                    return StringFormat.LEGOAT_STRING + "Time Paradox? Task is not yet done!";
+                    return StringFormat.INCOMPLETE_ALREADY_STRING;
                 } else {
                     t.unmark();
                     dataHandler.saveData(tasks);
-                    return StringFormat.LEGOAT_STRING + "Electric Boogaloo. Task uncompleted!\n"
+                    return "Electric Boogaloo. Task uncompleted!\n"
                             + t.toString();
                 }
             }
         } catch (NumberFormatException e) {
-            return StringFormat.LEGOAT_STRING + "Second Argument is not a number!!";
+            return StringFormat.NUMBER_FORMAT_EXCEPTION_STRING;
         } catch (IndexOutOfBoundsException e) {
-            return StringFormat.LEGOAT_STRING + "Second Argument is not a valid number!!";
+            return StringFormat.INDEX_OUT_OF_BOUNDS_EXCEPTION_STRING;
         }
     }
 
@@ -111,8 +111,7 @@ public class TaskHandler {
         }
         String taskName = tdName.toString().trim();
         if (taskName.isEmpty()) {
-            return StringFormat.LEGOAT_STRING
-                    + "The correct format is: \"todo <eventName>\"!";
+            return StringFormat.TODO_WRONG_FORMAT_STRING;
         } else {
             assert !taskName.isEmpty() : "taskName must not be empty";
             Task t = new Task(taskName, TaskType.TODO, TaskStatus.INCOMPLETE);
@@ -150,8 +149,7 @@ public class TaskHandler {
         String taskDeadline = dDate.toString().trim();
         String taskDeadlineDate = StringFormat.parseDate(taskDeadline);
         if (taskName.isEmpty() || taskDeadline.isEmpty()) {
-            return StringFormat.LEGOAT_STRING
-                    + "The correct format is: \"deadline <eventName> /by <deadline>\"!";
+            return StringFormat.DEADLINE_WRONG_FORMAT_STRING;
         } else {
             String reminder = "";
             if (!taskDeadlineDate.isEmpty()) {
@@ -210,8 +208,7 @@ public class TaskHandler {
         String taskBeginDate = StringFormat.parseDate(taskBegin);
         String taskEndDate = StringFormat.parseDate(taskEnd);
         if (taskName.isEmpty() || taskBegin.isEmpty() || taskEnd.isEmpty()) {
-            return StringFormat.LEGOAT_STRING
-                    + "The correct format is: \"event <eventName> /from <begin> /to <end>\"!";
+            return StringFormat.EVENT_WRONG_FORMAT_STRING;
         } else {
             String reminder = "";
             if (!taskBeginDate.isEmpty()) {
@@ -245,17 +242,12 @@ public class TaskHandler {
             tasks.remove(taskIndexToRemove);
             dataHandler.saveData(tasks);
             if (tasks.size() == 1) {
-                return StringFormat.LEGOAT_STRING
-                        + "Task deleted!!" + "\n" + StringFormat.LEGOAT_STRING + "You have "
-                        + tasks.size() + " Task left!!";
+                return "Task deleted!!\nYou have " + tasks.size() + " Task left!!";
             } else {
-                return StringFormat.LEGOAT_STRING
-                        + "Task deleted!!" + "\n" + StringFormat.LEGOAT_STRING + "You have "
-                        + tasks.size() + " Tasks left!!";
+                return "Task deleted!!\nYou have " + tasks.size() + " Tasks left!!";
             }
         } catch (NumberFormatException | IndexOutOfBoundsException e) {
-            return StringFormat.LEGOAT_STRING
-                    + "The correct format is: \"delete < valid line item number>\"!";
+            return StringFormat.DELETE_WRONG_FORMAT_STRING;
         }
     }
 
@@ -268,8 +260,7 @@ public class TaskHandler {
     public String find(String[] input) {
         StringBuilder sb = new StringBuilder();
         if (input.length > 2) {
-            return StringFormat.LEGOAT_STRING
-                    + "You can only find (1) keyword!";
+            return StringFormat.FIND_KEYWORD_WRONG_FORMAT_STRING;
         } else {
             int tasksFound = 0;
             for (Task t : tasks) {
@@ -299,22 +290,22 @@ public class TaskHandler {
             }
             if (tasksFound != 0) {
                 if (tasksFound > 1) {
-                    return StringFormat.LEGOAT_STRING + "I found "
+                    return "I found "
                             + tasksFound + " tasks:\n"
                             + sb.toString().trim();
                 } else {
-                    return StringFormat.LEGOAT_STRING + "I found 1 task:\n"
+                    return "I found 1 task:\n"
                             + sb.toString().trim();
                 }
             } else {
-                return StringFormat.LEGOAT_STRING + "Uh oh! No tasks with keyword "
+                return "Uh oh! No tasks with keyword "
                         + input[1] + " were found!";
             }
         }
     }
 
     /**
-    * <p>Gets correctly typed Tasks, Events, Deadlines from the list of tasks.
+    * <p>Gets correctly typed Todos, Events, Deadlines from the list of tasks.
     * @param t Selected Task
     * @return Selected task
     * @since v0.2
@@ -333,6 +324,63 @@ public class TaskHandler {
         default -> {
             return t;
         }
+        }
+    }
+
+    /**
+    * <p>Updates specified Todos, Events, Deadlines from the list of tasks.
+    * @param input User input is stored as a String[], input[0] is used to decide which command runs
+    * @return String representation of whether or not the update was successful or ran into problems
+    * @since v0.3
+    */
+    public String update(String[] input) throws IllegalArgumentException,
+            IndexOutOfBoundsException, ClassCastException, IOException {
+        try {
+            if (input.length < 4) {
+                throw new IllegalArgumentException();
+            }
+            int updateTargetIdx = Integer.parseInt(input[1]) - 1;
+            String updateField = input[2];
+            Task t = getTaskBasedOnType(tasks.get(updateTargetIdx));
+            switch (updateField) {
+            case "name" -> {
+                t.changeName(input);
+                dataHandler.saveData(tasks);
+                return StringFormat.UPDATE_SUCCESS_STRING;
+            }
+            case "deadline" -> {
+                if (t instanceof Deadline d) {
+                    d.changeDeadline(input);
+                    dataHandler.saveData(tasks);
+                    return StringFormat.UPDATE_SUCCESS_STRING;
+                } else {
+                    throw new ClassCastException();
+                }
+            }
+            case "event" -> {
+                if (t instanceof Event e) {
+                    String specificUpdateField = input[3];
+                    if (specificUpdateField.equals("/from") || specificUpdateField.equals("/to")) {
+                        e.changeEvent(input);
+                        dataHandler.saveData(tasks);
+                        return StringFormat.UPDATE_SUCCESS_STRING;
+                    } else {
+                        throw new IllegalArgumentException();
+                    }
+                } else {
+                    throw new ClassCastException();
+                }
+            }
+            default -> {
+                throw new IllegalArgumentException();
+            }
+            }
+        } catch (IllegalArgumentException e) {
+            return StringFormat.UPDATE_WRONG_FORMAT_STRING;
+        } catch (IndexOutOfBoundsException e) {
+            return StringFormat.INDEX_OUT_OF_BOUNDS_EXCEPTION_STRING;
+        } catch (ClassCastException e) {
+            return StringFormat.CLASS_CAST_EXCEPTION_STRING;
         }
     }
 }

@@ -19,7 +19,6 @@ public class StringFormat {
                       |____/ |___|   \\___/  \\_____/ |_|   |_|   |_|  |_|
                       """;
     public static final String BYE_STRING = "LeGoat logging off!";
-    public static final String LEGOAT_STRING = "LeGoat: ";
     public static final String DEADLINE_REMINDER_STRING = """
 
                                 PS: If you want "/by" to be formatted:
@@ -30,18 +29,51 @@ public class StringFormat {
                                     yyyy mm dd <24h time>""";
     public static final String UNKNOWN_COMMAND_STRING =
             """
-            Not something I can help with, brochacho.
+            Not something I can help with, son.
             But here is a list of valid commands:
 
-            bye -> exit LeGoat
-            list -> list current tasks
+            bye -> exit LeGoat!
+            list -> list current tasks!
             todo -> add a Todo task!
             deadline -> add a Deadline task!
             event -> add an Event task!
             delete -> delete a task from the list!
             find -> find a task from the list!
+            update -> update the name, deadline or event(begin/end)
+                            of a task from the list!
             """;
-
+    public static final String EMPTY_LIST_STRING =
+            "The list is currently empty! Add some Tasks first!!";
+    public static final String COMPLETED_ALREADY_STRING =
+            "Time Paradox? Task is already done!";
+    public static final String INCOMPLETE_ALREADY_STRING =
+            "Time Paradox? Task is not yet done!";
+    public static final String NUMBER_FORMAT_EXCEPTION_STRING =
+            "Index specified is not a number!!";
+    public static final String INDEX_OUT_OF_BOUNDS_EXCEPTION_STRING =
+            "Index specified is not a valid number!!";
+    public static final String CLASS_CAST_EXCEPTION_STRING =
+            "This field is not applicable to the specified task!";
+    public static final String TODO_WRONG_FORMAT_STRING =
+            "The correct format is: \"todo <eventName>\"!";
+    public static final String DEADLINE_WRONG_FORMAT_STRING =
+            "The correct format is: \"deadline <eventName> /by <deadline>\"!";
+    public static final String EVENT_WRONG_FORMAT_STRING =
+            "The correct format is: \"event <eventName> /from <begin> /to <end>\"!";
+    public static final String DELETE_WRONG_FORMAT_STRING =
+            "The correct format is: \"delete < valid line item number>\"!";
+    public static final String FIND_KEYWORD_WRONG_FORMAT_STRING =
+            "The correct format is: \"find <singular keyword>\"!";
+    public static final String UPDATE_WRONG_FORMAT_STRING =
+            """
+            The correct update command formats are:
+                \"update <list idx> name <updated name>\"
+                \"update <list idx> deadline <updated deadline>\"
+                \"update <list idx> event /from <updated beginning>\"
+                \"update <list idx> event /to <updated ending>\"
+            """;
+    public static final String UPDATE_SUCCESS_STRING =
+            "Successfully updated selected task!";
     /**
     * <p>Parses a String into a proper date.
     * @param maybeDate a String that might be parseable to the desired "MMM yyyy hh:mm a"
