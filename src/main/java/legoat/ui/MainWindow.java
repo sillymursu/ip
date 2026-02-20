@@ -1,6 +1,5 @@
 package legoat.ui;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javafx.animation.PauseTransition;
@@ -11,6 +10,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
+import legoat.exceptions.DoubleCompletionException;
+import legoat.exceptions.DoubleIncompleteException;
+import legoat.exceptions.EmptyListException;
+import legoat.exceptions.EventTimeException;
+import legoat.exceptions.WrongFormatDeadlineException;
+import legoat.exceptions.WrongFormatDeleteException;
+import legoat.exceptions.WrongFormatEventException;
+import legoat.exceptions.WrongFormatFindException;
+import legoat.exceptions.WrongFormatTodoException;
+import legoat.exceptions.WrongFormatUnknownException;
+import legoat.exceptions.WrongFormatUpdateException;
 import legoat.handlers.LeGoatOutputHandler;
 
 /**
@@ -45,11 +55,19 @@ public class MainWindow {
 
     @FXML
     @SuppressWarnings("unused")
-    private void handleUserInput() throws FileNotFoundException,
-            IOException {
+    private void handleUserInput() throws IOException {
         String rawInput = userInput.getText();
         String[] input = rawInput.split(" ");
-        String response = leGoat.handleCommand(input);
+        String response;
+        try {
+            response = leGoat.handleCommand(input);
+        } catch (DoubleCompletionException | DoubleIncompleteException
+                | EmptyListException | EventTimeException | WrongFormatDeadlineException
+                | WrongFormatDeleteException | WrongFormatEventException
+                | WrongFormatFindException | WrongFormatTodoException
+                | WrongFormatUnknownException | WrongFormatUpdateException e) {
+            response = e.getMessage();
+        }
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(rawInput, userImage),
                 DialogBox.getLeGoatDialog(response, leGoatImage)

@@ -62,7 +62,7 @@ public class DataHandler {
     * <p>Loads the list of tasks in data/LeGoatData.txt on LeGoat startup.
     * @since v0.1
     */
-    public void loadData(TaskHandler taskHandler) throws FileNotFoundException {
+    public void loadData(TaskHandler taskHandler) {
         try {
             this.savedPath = new File("data/LeGoatData.txt");
             if (savedPath.exists()) {
