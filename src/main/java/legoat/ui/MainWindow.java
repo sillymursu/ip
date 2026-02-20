@@ -57,9 +57,13 @@ public class MainWindow {
     @SuppressWarnings("unused")
     private void handleUserInput() throws IOException {
         String rawInput = userInput.getText();
-        String[] input = rawInput.split(" ");
+        String[] input = rawInput.split("\\s+");
         String response;
+        boolean isError = false;
         try {
+            if (input.length == 0 || rawInput.trim().isEmpty()) {
+                return;
+            }
             response = leGoat.handleCommand(input);
         } catch (DoubleCompletionException | DoubleIncompleteException
                 | EmptyListException | EventTimeException | WrongFormatDeadlineException
@@ -67,11 +71,12 @@ public class MainWindow {
                 | WrongFormatFindException | WrongFormatTodoException
                 | WrongFormatUnknownException | WrongFormatUpdateException e) {
             response = e.getMessage();
+            isError = true;
         }
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(rawInput, userImage),
-                DialogBox.getLeGoatDialog(response, leGoatImage)
-        );
+                isError ? DialogBox.getLeGoatErrorDialog(response, leGoatImage)
+                        : DialogBox.getLeGoatDialog(response, leGoatImage));
         userInput.clear();
         if (rawInput.trim().equals("bye")) {
             PauseTransition pause = new PauseTransition(Duration.seconds(3));
