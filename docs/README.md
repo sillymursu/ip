@@ -72,7 +72,7 @@ Applicable only to Event tasks:
 
 ## Had to much greatness for today? Bye!
 * "bye"
-* This command force LeGoat to exit.
+* This command force LeGoat to exit. <br>
 
 <img width="619" height="240" alt="image" src="https://github.com/user-attachments/assets/50681dcf-a722-4c9e-a22f-cd025522b843" />
 
