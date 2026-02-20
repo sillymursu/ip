@@ -299,8 +299,6 @@ public class TaskHandler {
                         sb.append("\n");
                     }
                     }
-                    sb.append(getTaskBasedOnType(t).toString());
-                    sb.append("\n");
                 }
             }
             if (tasksFound != 0) {
@@ -361,13 +359,13 @@ public class TaskHandler {
             case "name" -> {
                 t.changeName(input);
                 dataHandler.saveData(tasks);
-                return StringFormat.UPDATE_SUCCESS_STRING;
+                return StringFormat.UPDATE_SUCCESS_STRING + "\n" + t.toString();
             }
             case "deadline" -> {
                 if (t instanceof Deadline d) {
                     d.changeDeadline(input);
                     dataHandler.saveData(tasks);
-                    return StringFormat.UPDATE_SUCCESS_STRING;
+                    return StringFormat.UPDATE_SUCCESS_STRING + "\n" + d.toString();
                 } else {
                     throw new WrongFormatUpdateException();
                 }
@@ -378,7 +376,7 @@ public class TaskHandler {
                     if (specificUpdateField.equals("/from") || specificUpdateField.equals("/to")) {
                         e.changeEvent(input);
                         dataHandler.saveData(tasks);
-                        return StringFormat.UPDATE_SUCCESS_STRING;
+                        return StringFormat.UPDATE_SUCCESS_STRING + "\n" + e.toString();
                     } else {
                         throw new WrongFormatUpdateException();
                     }
