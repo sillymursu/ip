@@ -1,9 +1,9 @@
 # **LeGoat**
 <p align="left">
-<img width="619" height="310" alt="image" src="https://github.com/user-attachments/assets/0f216faa-9888-45db-8fb7-ffe159a08f25" />
+  <img width="619" height="310" alt="image" src="https://github.com/user-attachments/assets/0f216faa-9888-45db-8fb7-ffe159a08f25" />
 </p>
 <p align="left">
-<img width="619" height="542" alt="Screenshot 2026-02-20 172740" src="https://github.com/user-attachments/assets/bb5a7d55-5929-41ab-aae8-d531005743d4" />
+  <img width="619" height="542" alt="Screenshot 2026-02-20 172740" src="https://github.com/user-attachments/assets/bb5a7d55-5929-41ab-aae8-d531005743d4" />
 </p>
 
 # Ever wanted LeGoat to manage your tasks for you?
@@ -94,7 +94,7 @@ Applicable only to Event tasks:
 
 ## Had to much greatness for today? Bye!
 * "bye"
-* This command force LeGoat to exit.
+* This command force LeGoat to exit. Bye LeGoat! The application will wait 3 seconds before exiting.
 <p align="left">
   <img width="619" height="240" alt="image" src="https://github.com/user-attachments/assets/50681dcf-a722-4c9e-a22f-cd025522b843" />
 </p>
