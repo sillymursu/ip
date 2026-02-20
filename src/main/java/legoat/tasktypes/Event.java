@@ -1,5 +1,6 @@
 package legoat.tasktypes;
 
+import legoat.exceptions.EventTimeException;
 import legoat.ui.StringFormat;
 
 /**
@@ -25,9 +26,10 @@ public class Event extends Task {
 
     /**
     * <p>Method that changes the "begin" or "end" field of an instance of Event.
+    * @throws EventTimeException if the updated begin time is after the end time
     * @since v0.3
     */
-    public void changeEvent(String[] input) {
+    public void changeEvent(String[] input) throws EventTimeException {
         String fieldToUpdate = input[3];
         StringBuilder eField = new StringBuilder();
         for (int j = 4; j < input.length; j++) {
@@ -36,23 +38,31 @@ public class Event extends Task {
         }
         String updatedField = eField.toString().trim();
         String updatedFieldDate = StringFormat.parseDate(updatedField);
+        String newBegin = this.begin;
+        String newEnd = this.end;
         switch (fieldToUpdate) {
         case "/from" -> {
             if (updatedFieldDate.equals("")) {
-                this.begin = updatedField;
+                newBegin = updatedField;
             } else {
-                this.begin = updatedFieldDate;
+                newBegin = updatedFieldDate;
             }
         }
         case "/to" -> {
             if (updatedFieldDate.equals("")) {
-                this.end = updatedField;
+                newEnd = updatedField;
             } else {
-                this.end = updatedFieldDate;
+                newEnd = updatedFieldDate;
             }
         }
         default -> { }
         }
+        if (StringFormat.eventDateValidation(updatedField, this.begin)
+                || StringFormat.eventDateValidation(updatedField, this.end)) {
+            throw new EventTimeException();
+        }
+        this.begin = newBegin;
+        this.end = newEnd;
     }
 
     /**

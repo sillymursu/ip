@@ -17,6 +17,21 @@
     -fx-font-size: 12px;
 }
 
+.error-label {
+    -fx-background-color: linear-gradient(to bottom, #9c0823, #5d0f1f);
+    -fx-border-color: #ae1538 #ae1538 #ae1538 #ae1538;
+}
+
+.logo-label {
+    -fx-font-family: "Courier New", monospace;
+    -fx-font-size: 12px;
+}
+
+.error-label {
+    -fx-background-color: linear-gradient(to bottom, #9c0823, #5d0f1f);
+    -fx-border-color: #ae1538 #ae1538 #ae1538 #ae1538;
+}
+
 #displayPicture {
     /* Shadow effect on image. */
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0.5, 5, 5);

@@ -1,9 +1,18 @@
 package legoat.handlers;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import legoat.exceptions.DoubleCompletionException;
+import legoat.exceptions.DoubleIncompleteException;
+import legoat.exceptions.EmptyListException;
+import legoat.exceptions.EventTimeException;
+import legoat.exceptions.WrongFormatDeadlineException;
+import legoat.exceptions.WrongFormatDeleteException;
+import legoat.exceptions.WrongFormatEventException;
+import legoat.exceptions.WrongFormatFindException;
+import legoat.exceptions.WrongFormatTodoException;
+import legoat.exceptions.WrongFormatUpdateException;
 import legoat.tasktypes.Deadline;
 import legoat.tasktypes.Event;
 import legoat.tasktypes.Task;
@@ -25,7 +34,7 @@ public class TaskHandler {
     * Loads data of tasks on instance creation.
     * @since v0.2
     */
-    public TaskHandler() throws FileNotFoundException {
+    public TaskHandler() {
         this.loadTaskData();
     }
 
@@ -33,7 +42,7 @@ public class TaskHandler {
     * <p>Loads task data from "data\LeGoatData.txt" if applicable.
     * @since v0.2
     */
-    private void loadTaskData() throws FileNotFoundException {
+    private void loadTaskData() {
         dataHandler.loadData(this);
     }
 
@@ -43,9 +52,9 @@ public class TaskHandler {
     * @return A list of current tasks as a String
     * @since v0.2
     */
-    public String list() {
+    public String list() throws EmptyListException {
         if (tasks.isEmpty()) {
-            return StringFormat.EMPTY_LIST_STRING;
+            throw new EmptyListException();
         }
         StringBuilder sb = new StringBuilder();
         assert !tasks.isEmpty() : "List of tasks must not be empty";
@@ -61,12 +70,11 @@ public class TaskHandler {
     /**
     * <p>Marks/Unmarks a task based off input.
     * @param input User input is stored as a String[], input[0] is used to decide which command runs
-    * @throws NumberFormatException
-    * @throws IndexOutOfBoundsException
     * @since v0.2
     */
-    public String markUnmark(String[] input) throws NumberFormatException,
-                IndexOutOfBoundsException, IOException {
+    public String markUnmark(String[] input) throws IOException,
+                DoubleCompletionException, DoubleIncompleteException,
+                WrongFormatDeleteException {
         try {
             int lineNum = Integer.parseInt(input[1]) - 1;
             assert lineNum >= 0 : "Line number must be positive";
@@ -74,7 +82,7 @@ public class TaskHandler {
             Task t = tasks.get(lineNum);
             if (input[0].equals("mark")) {
                 if (t.getTaskStatus() == TaskStatus.COMPLETE) {
-                    return StringFormat.COMPLETED_ALREADY_STRING;
+                    throw new DoubleCompletionException();
                 } else {
                     t.mark();
                     dataHandler.saveData(tasks);
@@ -83,7 +91,7 @@ public class TaskHandler {
                 }
             } else {
                 if (t.getTaskStatus() == TaskStatus.INCOMPLETE) {
-                    return StringFormat.INCOMPLETE_ALREADY_STRING;
+                    throw new DoubleIncompleteException();
                 } else {
                     t.unmark();
                     dataHandler.saveData(tasks);
@@ -91,10 +99,8 @@ public class TaskHandler {
                             + t.toString();
                 }
             }
-        } catch (NumberFormatException e) {
-            return StringFormat.NUMBER_FORMAT_EXCEPTION_STRING;
-        } catch (IndexOutOfBoundsException e) {
-            return StringFormat.INDEX_OUT_OF_BOUNDS_EXCEPTION_STRING;
+        } catch (NumberFormatException | IndexOutOfBoundsException e) {
+            throw new WrongFormatDeleteException();
         }
     }
 
@@ -103,7 +109,8 @@ public class TaskHandler {
     * @param input User input is stored as a String[], input[0] is used to decide which command runs
     * @since v0.2
     */
-    public String addToDo(String[] input) throws IOException {
+    public String addToDo(String[] input) throws IOException,
+            WrongFormatTodoException {
         StringBuilder tdName = new StringBuilder();
         for (int i = 1; i < input.length; i++) {
             tdName.append(" ");
@@ -111,7 +118,7 @@ public class TaskHandler {
         }
         String taskName = tdName.toString().trim();
         if (taskName.isEmpty()) {
-            return StringFormat.TODO_WRONG_FORMAT_STRING;
+            throw new WrongFormatTodoException();
         } else {
             assert !taskName.isEmpty() : "taskName must not be empty";
             Task t = new Task(taskName, TaskType.TODO, TaskStatus.INCOMPLETE);
@@ -126,7 +133,8 @@ public class TaskHandler {
     * @param input User input is stored as a String[], input[0] is used to decide which command runs
     * @since v0.1
     */
-    public String addDeadline(String[] input) throws IOException {
+    public String addDeadline(String[] input) throws IOException,
+            WrongFormatDeadlineException {
         StringBuilder dName = new StringBuilder();
         StringBuilder dDate = new StringBuilder();
         int b = 1;
@@ -149,7 +157,7 @@ public class TaskHandler {
         String taskDeadline = dDate.toString().trim();
         String taskDeadlineDate = StringFormat.parseDate(taskDeadline);
         if (taskName.isEmpty() || taskDeadline.isEmpty()) {
-            return StringFormat.DEADLINE_WRONG_FORMAT_STRING;
+            throw new WrongFormatDeadlineException();
         } else {
             String reminder = "";
             if (!taskDeadlineDate.isEmpty()) {
@@ -171,7 +179,8 @@ public class TaskHandler {
     * @param input User input is stored as a String[], input[0] is used to decide which command runs
     * @since v0.1
     */
-    public String addEvent(String[] input) throws IOException {
+    public String addEvent(String[] input) throws IOException,
+            WrongFormatEventException, EventTimeException {
         StringBuilder eName = new StringBuilder();
         StringBuilder eFrom = new StringBuilder();
         StringBuilder eTo = new StringBuilder();
@@ -208,8 +217,13 @@ public class TaskHandler {
         String taskBeginDate = StringFormat.parseDate(taskBegin);
         String taskEndDate = StringFormat.parseDate(taskEnd);
         if (taskName.isEmpty() || taskBegin.isEmpty() || taskEnd.isEmpty()) {
-            return StringFormat.EVENT_WRONG_FORMAT_STRING;
+            throw new WrongFormatEventException();
         } else {
+            if (!taskBeginDate.isEmpty() && !taskEndDate.isEmpty()) {
+                if (StringFormat.eventDateValidation(taskBegin, taskEnd)) {
+                    throw new EventTimeException();
+                }
+            }
             String reminder = "";
             if (!taskBeginDate.isEmpty()) {
                 taskBegin = taskBeginDate;
@@ -236,7 +250,8 @@ public class TaskHandler {
     * @param input User input is stored as a String[], input[0] is used to decide which command runs
     * @since v0.1
     */
-    public String deleteTask(String[] input) throws IOException {
+    public String deleteTask(String[] input) throws IOException,
+            WrongFormatDeleteException {
         try {
             int taskIndexToRemove = Integer.parseInt(input[1]) - 1;
             tasks.remove(taskIndexToRemove);
@@ -247,7 +262,7 @@ public class TaskHandler {
                 return "Task deleted!!\nYou have " + tasks.size() + " Tasks left!!";
             }
         } catch (NumberFormatException | IndexOutOfBoundsException e) {
-            return StringFormat.DELETE_WRONG_FORMAT_STRING;
+            throw new WrongFormatDeleteException();
         }
     }
 
@@ -257,10 +272,10 @@ public class TaskHandler {
     * @param input User input is stored as a String[], input[0] is used to decide which command runs
     * @since v0.1
     */
-    public String find(String[] input) {
+    public String find(String[] input) throws WrongFormatFindException {
         StringBuilder sb = new StringBuilder();
         if (input.length > 2) {
-            return StringFormat.FIND_KEYWORD_WRONG_FORMAT_STRING;
+            throw new WrongFormatFindException();
         } else {
             int tasksFound = 0;
             for (Task t : tasks) {
@@ -333,11 +348,11 @@ public class TaskHandler {
     * @return String representation of whether or not the update was successful or ran into problems
     * @since v0.3
     */
-    public String update(String[] input) throws IllegalArgumentException,
-            IndexOutOfBoundsException, ClassCastException, IOException {
+    public String update(String[] input) throws IOException,
+            EventTimeException, WrongFormatUpdateException {
         try {
             if (input.length < 4) {
-                throw new IllegalArgumentException();
+                throw new WrongFormatUpdateException();
             }
             int updateTargetIdx = Integer.parseInt(input[1]) - 1;
             String updateField = input[2];
@@ -354,7 +369,7 @@ public class TaskHandler {
                     dataHandler.saveData(tasks);
                     return StringFormat.UPDATE_SUCCESS_STRING;
                 } else {
-                    throw new ClassCastException();
+                    throw new WrongFormatUpdateException();
                 }
             }
             case "event" -> {
@@ -365,22 +380,18 @@ public class TaskHandler {
                         dataHandler.saveData(tasks);
                         return StringFormat.UPDATE_SUCCESS_STRING;
                     } else {
-                        throw new IllegalArgumentException();
+                        throw new WrongFormatUpdateException();
                     }
                 } else {
-                    throw new ClassCastException();
+                    throw new WrongFormatUpdateException();
                 }
             }
             default -> {
-                throw new IllegalArgumentException();
+                throw new WrongFormatUpdateException();
             }
             }
-        } catch (IllegalArgumentException e) {
-            return StringFormat.UPDATE_WRONG_FORMAT_STRING;
-        } catch (IndexOutOfBoundsException e) {
-            return StringFormat.INDEX_OUT_OF_BOUNDS_EXCEPTION_STRING;
-        } catch (ClassCastException e) {
-            return StringFormat.CLASS_CAST_EXCEPTION_STRING;
+        } catch (NumberFormatException | IndexOutOfBoundsException | ClassCastException e) {
+            throw new WrongFormatUpdateException();
         }
     }
 }

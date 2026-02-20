@@ -1,8 +1,18 @@
 package legoat.handlers;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import legoat.exceptions.DoubleCompletionException;
+import legoat.exceptions.DoubleIncompleteException;
+import legoat.exceptions.EmptyListException;
+import legoat.exceptions.EventTimeException;
+import legoat.exceptions.WrongFormatDeadlineException;
+import legoat.exceptions.WrongFormatDeleteException;
+import legoat.exceptions.WrongFormatEventException;
+import legoat.exceptions.WrongFormatFindException;
+import legoat.exceptions.WrongFormatTodoException;
+import legoat.exceptions.WrongFormatUnknownException;
+import legoat.exceptions.WrongFormatUpdateException;
 import legoat.ui.StringFormat;
 
 /**
@@ -13,7 +23,7 @@ import legoat.ui.StringFormat;
 public class LeGoatOutputHandler {
     private final TaskHandler taskHandler;
 
-    public LeGoatOutputHandler() throws FileNotFoundException {
+    public LeGoatOutputHandler() {
         this.taskHandler = new TaskHandler();
     }
 
@@ -22,8 +32,12 @@ public class LeGoatOutputHandler {
     * @return String that LeGoat will use to reply to the user
     * @since v0.2
     */
-    public String handleCommand(String[] input) throws FileNotFoundException,
-            IOException {
+    public String handleCommand(String[] input) throws IOException,
+            DoubleCompletionException, DoubleIncompleteException,
+            EmptyListException, EventTimeException, WrongFormatDeadlineException,
+            WrongFormatDeleteException, WrongFormatEventException,
+            WrongFormatFindException, WrongFormatTodoException,
+            WrongFormatUnknownException, WrongFormatUpdateException {
         return switch (input[0]) {
         case "bye" -> this.bye();
         case "list" -> taskHandler.list();
@@ -43,8 +57,8 @@ public class LeGoatOutputHandler {
     * @return String that LeGoat will use to reply to the user
     * @since v0.2
     */
-    public String handleUnknownCommand() {
-        return StringFormat.UNKNOWN_COMMAND_STRING;
+    public String handleUnknownCommand() throws WrongFormatUnknownException {
+        throw new WrongFormatUnknownException();
     }
 
     /**
