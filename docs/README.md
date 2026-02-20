@@ -27,7 +27,7 @@ LeGoat comes neatly packaged in his jar file, your wishes are his commands! 🏀
 * Adds a Event Task to the list of tasks.
 * Event task type is indicated by the "[ E ]" in from of the task.
 * Event tasks have 2 mandatory fields, "\<beginning\>" and "\<ending\>" that specifies when this task begins, and when it ends!
-* If "\<beginning\>" and/or "\<ending\>" is written in "YYYY MM DD hhmm" format, LeGoat shall automatically format these fields! (Thanks LeGoat!)
+* If "\<beginning\>" and/or "\<ending\>" is written in "YYYY MM DD hhmm" format, LeGoat shall automatically format these fields!
 <img width="619" height="240" alt="image" src="https://github.com/user-attachments/assets/9e3969fa-c65e-4470-9361-a4f271d145df" />
 
 ## Display your list of tasks
@@ -48,32 +48,32 @@ Applicable only to Deadline tasks:
 Applicable only to Event tasks:
 * "update \<list idx\> event \from \<updatedBeginning\>"
 * "update \<list idx\> event \to \<updatedEnding\>"
-<img width="619" height="725" alt="image" src="https://github.com/user-attachments/assets/8eb8cb8c-37f0-47b7-985d-dfc85fe618ec" />
+<img width="619" height="480" alt="image" src="https://github.com/user-attachments/assets/8eb8cb8c-37f0-47b7-985d-dfc85fe618ec" />
 
 ## Mark/Unmark a task in your list
 "mark \<list idx\>"
 "unmark \<list idx\>"
 * If a task is incomplete, it is indicated as a "[]" when the task is displayed!
 * Done with a task? Mark a incomplete task as completed, indicated as a "[ X ]" when the task is displayed!
-<img width="619" height="480" alt="image" src="https://github.com/user-attachments/assets/cc1e2b71-eb36-4df5-a4be-8adc08e3410d" />
+<img width="619" height="240" alt="image" src="https://github.com/user-attachments/assets/cc1e2b71-eb36-4df5-a4be-8adc08e3410d" />
 
 * Mistakenly marked a task as complete? Unmark that task and render it incompleted with unmark!
-<img width="619" height="480" alt="image" src="https://github.com/user-attachments/assets/ba6b63ff-a21a-4f8a-9015-f52f91fc499a" />
+<img width="619" height="240" alt="image" src="https://github.com/user-attachments/assets/ba6b63ff-a21a-4f8a-9015-f52f91fc499a" />
 
 ## Find a task in your list
 "find \<keyword\>"
 * Want to find task(s) that have \<keyword\> in their taskName(s)? Use find!
-<img width="619" height="480" alt="image" src="https://github.com/user-attachments/assets/6db4c5d4-ebf5-4f74-89c5-5281483c86f9" />
+<img width="619" height="240" alt="image" src="https://github.com/user-attachments/assets/6db4c5d4-ebf5-4f74-89c5-5281483c86f9" />
 
 ## Delete a task from your list
 "delete \<list idx\>"
 * This deletes a task at specified list index from the list of tasks!
-<img width="619" height="480" alt="image" src="https://github.com/user-attachments/assets/fbb29f1c-b680-4291-99d2-885adcd6c243" />
+<img width="619" height="240" alt="image" src="https://github.com/user-attachments/assets/fbb29f1c-b680-4291-99d2-885adcd6c243" />
 
 ## Had to much greatness for today? Bye!
 * "bye"
 * This command force LeGoat to exit.
-<img width="619" height="480" alt="image" src="https://github.com/user-attachments/assets/50681dcf-a722-4c9e-a22f-cd025522b843" />
+<img width="619" height="240" alt="image" src="https://github.com/user-attachments/assets/50681dcf-a722-4c9e-a22f-cd025522b843" />
 
 # Installation Steps:
 > 1. Download LeGoat.jar under [releases](https://github.com/sillymursu/ip/releases)
