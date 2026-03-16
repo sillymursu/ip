@@ -23,7 +23,7 @@ import legoat.exceptions.WrongFormatFindException;
 import legoat.exceptions.WrongFormatTodoException;
 import legoat.exceptions.WrongFormatUnknownException;
 import legoat.exceptions.WrongFormatUpdateException;
-import legoat.handlers.LeGoatOutputHandler;
+import legoat.commands.Parser;
 
 /**
 * <p>MainWindow class handles the UI and formatting of the GUI with FXML.
@@ -40,7 +40,7 @@ public class MainWindow {
     @SuppressWarnings("unused")
     private Button sendButton;
 
-    private LeGoatOutputHandler leGoat;
+    private Parser leGoat;
     private final Image userImage = new Image(this.getClass().getResourceAsStream("/images/Bronny.png"));
     private final Image leGoatImage = new Image(this.getClass().getResourceAsStream("/images/LeBron.png"));
 
@@ -49,7 +49,7 @@ public class MainWindow {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
     }
 
-    public void setLeGoat(LeGoatOutputHandler leGoat) {
+    public void setLeGoat(Parser leGoat) {
         this.leGoat = leGoat;
         String welcomeMessage = "Hi, i'm,\n" + StringFormat.LOGO_STRING;
         dialogContainer.getChildren().add(DialogBox.getLeGoatLogoDialog(welcomeMessage, leGoatImage));
