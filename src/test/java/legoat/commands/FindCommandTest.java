@@ -59,4 +59,17 @@ class FindCommandTest {
                 ) -> command.execute(new String[] {"find", "book", "flight"}, parser));
         assertNotNull(thrown.getMessage());
     }
+
+    /**
+     * Verifies missing keyword throws a wrong-format exception.
+     */
+    @Test
+    void execute_noKeyword_throwsWrongFormatFindException() {
+        Parser parser = TestParserFactory.newParser();
+        FindCommand command = new FindCommand();
+
+        WrongFormatFindException thrown = assertThrows(WrongFormatFindException.class, (
+                ) -> command.execute(new String[] {"find"}, parser));
+        assertNotNull(thrown.getMessage());
+    }
 }

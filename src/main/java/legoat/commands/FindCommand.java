@@ -13,7 +13,7 @@ public class FindCommand implements Command {
     @Override
     public String execute(String[] input, Parser taskHandler) throws WrongFormatFindException {
         StringBuilder sb = new StringBuilder();
-        if (input.length > 2) {
+        if (input.length != 2) {
             throw new WrongFormatFindException();
         }
 
