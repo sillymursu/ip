@@ -10,6 +10,8 @@ import legoat.exceptions.WrongFormatDeadlineException;
 import legoat.exceptions.WrongFormatDeleteException;
 import legoat.exceptions.WrongFormatEventException;
 import legoat.exceptions.WrongFormatFindException;
+import legoat.exceptions.WrongFormatMarkException;
+import legoat.exceptions.WrongFormatUnmarkException;
 import legoat.exceptions.WrongFormatTodoException;
 import legoat.exceptions.WrongFormatUnknownException;
 import legoat.exceptions.WrongFormatUpdateException;
@@ -35,6 +37,7 @@ public class LeGoatOutputHandler {
     public String handleCommand(String[] input) throws IOException,
             DoubleCompletionException, DoubleIncompleteException,
             EmptyListException, EventTimeException, WrongFormatDeadlineException,
+            WrongFormatMarkException, WrongFormatUnmarkException,
             WrongFormatDeleteException, WrongFormatEventException,
             WrongFormatFindException, WrongFormatTodoException,
             WrongFormatUnknownException, WrongFormatUpdateException {

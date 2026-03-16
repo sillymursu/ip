@@ -23,7 +23,7 @@ LeGoat comes neatly packaged in his jar file, your wishes are his commands! 🏀
 <img width="619" height="240" alt="image" src="https://github.com/user-attachments/assets/f3c8388a-b630-4b10-a20b-9bd33624c31d" />
 
 ## Adding Events
-"event \<taskName\> \\from \<beginning\> \\to \<ending\>"
+"event \<taskName\> /from \<beginning\> /to \<ending\>"
 * Adds a Event Task to the list of tasks.
 * Event task type is indicated by the "[ E ]" in from of the task.
 * Event tasks have 2 mandatory fields, "\<beginning\>" and "\<ending\>" that specifies when this task begins, and when it ends!
@@ -46,8 +46,8 @@ Applicable only to Deadline tasks:
 * "update \<list idx\> deadline \<updatedDeadline\>"
 
 Applicable only to Event tasks:
-* "update \<list idx\> event \from \<updatedBeginning\>"
-* "update \<list idx\> event \to \<updatedEnding\>"
+* "update \<list idx\> event /from \<updatedBeginning\>"
+* "update \<list idx\> event /to \<updatedEnding\>"
 <img width="619" height="725" alt="image" src="https://github.com/user-attachments/assets/8eb8cb8c-37f0-47b7-985d-dfc85fe618ec" />
 
 ## Mark/Unmark a task in your list

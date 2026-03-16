@@ -11,6 +11,8 @@ import legoat.exceptions.WrongFormatDeadlineException;
 import legoat.exceptions.WrongFormatDeleteException;
 import legoat.exceptions.WrongFormatEventException;
 import legoat.exceptions.WrongFormatFindException;
+import legoat.exceptions.WrongFormatMarkException;
+import legoat.exceptions.WrongFormatUnmarkException;
 import legoat.exceptions.WrongFormatTodoException;
 import legoat.exceptions.WrongFormatUpdateException;
 import legoat.tasktypes.Deadline;
@@ -74,7 +76,7 @@ public class TaskHandler {
     */
     public String markUnmark(String[] input) throws IOException,
                 DoubleCompletionException, DoubleIncompleteException,
-                WrongFormatDeleteException {
+                WrongFormatMarkException, WrongFormatUnmarkException {
         try {
             int lineNum = Integer.parseInt(input[1]) - 1;
             assert lineNum >= 0 : "Line number must be positive";
@@ -100,7 +102,11 @@ public class TaskHandler {
                 }
             }
         } catch (NumberFormatException | IndexOutOfBoundsException e) {
-            throw new WrongFormatDeleteException();
+            if (input[0].equals("mark")) {
+                throw new WrongFormatMarkException();
+            } else {
+                throw new WrongFormatUnmarkException();
+            }
         }
     }
 

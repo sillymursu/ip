@@ -37,6 +37,8 @@ public class StringFormat {
             todo -> add a Todo task!
             deadline -> add a Deadline task!
             event -> add an Event task!
+            mark -> mark a task as completed!
+            unmark -> mark a task as incomplete!
             delete -> delete a task from the list!
             find -> find a task from the list!
             update -> update the name, deadline or event(begin/end)
@@ -62,6 +64,10 @@ public class StringFormat {
             "The correct format is: \"deadline <eventName> /by <deadline>\"!";
     public static final String WRONG_FORMAT_EVENT_EXCEPTION_STRING =
             "The correct format is: \"event <eventName> /from <begin> /to <end>\"!";
+    public static final String WRONG_FORMAT_MARK_EXCEPTION_STRING =
+            "The correct format is: \"mark <valid list idx>\"!";
+    public static final String WRONG_FORMAT_UNMARK_EXCEPTION_STRING =
+            "The correct format is: \"unmark <valid list idx>\"!";
     public static final String WRONG_FORMAT_DELETE_EXCEPTION_STRING =
             "The correct format is: \"delete < valid line item number>\"!";
     public static final String WRONG_FORMAT_FIND_EXCEPTION_STRING =

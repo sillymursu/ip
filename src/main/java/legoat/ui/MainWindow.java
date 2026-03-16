@@ -15,6 +15,8 @@ import legoat.exceptions.DoubleIncompleteException;
 import legoat.exceptions.EmptyListException;
 import legoat.exceptions.EventTimeException;
 import legoat.exceptions.WrongFormatDeadlineException;
+import legoat.exceptions.WrongFormatMarkException;
+import legoat.exceptions.WrongFormatUnmarkException;
 import legoat.exceptions.WrongFormatDeleteException;
 import legoat.exceptions.WrongFormatEventException;
 import legoat.exceptions.WrongFormatFindException;
@@ -67,6 +69,7 @@ public class MainWindow {
             response = leGoat.handleCommand(input);
         } catch (DoubleCompletionException | DoubleIncompleteException
                 | EmptyListException | EventTimeException | WrongFormatDeadlineException
+                | WrongFormatMarkException | WrongFormatUnmarkException
                 | WrongFormatDeleteException | WrongFormatEventException
                 | WrongFormatFindException | WrongFormatTodoException
                 | WrongFormatUnknownException | WrongFormatUpdateException e) {
