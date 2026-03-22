@@ -58,6 +58,8 @@ public class StringFormat {
             "Index specified is not a valid number!!";
     public static final String CLASS_CAST_EXCEPTION_STRING =
             "This field is not applicable to the specified task!";
+    public static final String WRONG_FORMAT_LIST_EXCEPTION_STRING =
+            "The correct format is: \"list\"!";
     public static final String WRONG_FORMAT_TODO_EXCEPTION_STRING =
             "The correct format is: \"todo <eventName>\"!";
     public static final String WRONG_FORMAT_DEADLINE_EXCEPTION_STRING =
