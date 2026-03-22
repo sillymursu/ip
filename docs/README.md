@@ -31,7 +31,7 @@ LeGoat comes neatly packaged in his jar file, your wishes are his commands! 🏀
 </p>
 
 ## Adding Events
-"event \<taskName\> \\from \<beginning\> \\to \<ending\>"
+"event \<taskName\> /from \<beginning\> /to \<ending\>"
 * Adds a Event Task to the list of tasks.
 * Event task type is indicated by the "[ E ]" in from of the task.
 * Event tasks have 2 mandatory fields, "\<beginning\>" and "\<ending\>" that specifies when this task begins, and when it ends!

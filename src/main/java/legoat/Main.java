@@ -7,7 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import legoat.handlers.LeGoatOutputHandler;
+import legoat.commands.Parser;
 import legoat.ui.MainWindow;
 
 /**
@@ -15,10 +15,10 @@ import legoat.ui.MainWindow;
 * @author Russell Lin
 */
 public class Main extends Application {
-    private final LeGoatOutputHandler leGoat;
+    private final Parser leGoat;
 
     public Main() throws IOException {
-        this.leGoat = new LeGoatOutputHandler();
+        this.leGoat = new Parser();
     }
 
     @Override

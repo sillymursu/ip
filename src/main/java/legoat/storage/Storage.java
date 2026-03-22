@@ -1,4 +1,4 @@
-package legoat.handlers;
+package legoat.storage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import legoat.commands.Parser;
 import legoat.tasktypes.Deadline;
 import legoat.tasktypes.Event;
 import legoat.tasktypes.Task;
@@ -14,18 +15,18 @@ import legoat.tasktypes.TaskStatus;
 import legoat.tasktypes.TaskType;
 
 /**
-* DataHandler handles all data related events.
-*
-* @author Russell Lin
-*/
-public class DataHandler {
+ * Storage handles all data related events.
+ *
+ * @author Russell Lin
+ */
+public class Storage {
     private File savedPath = new File("data/LeGoatData.txt");
 
     /**
-    * <p>Saves the current list of tasks to data/LeGoatData.txt on any change to tasks.
-    * @param tasks ArrayList of Tasks
-    * @since v0.1
-    */
+     * <p>Saves the current list of tasks to data/LeGoatData.txt on any change to tasks.
+     * @param tasks ArrayList of Tasks
+     * @since v0.1
+     */
     public void saveData(ArrayList<Task> tasks) throws IOException {
         this.savedPath.getParentFile().mkdirs();
         try (FileWriter writer = new FileWriter(savedPath)) {
@@ -59,10 +60,10 @@ public class DataHandler {
     }
 
     /**
-    * <p>Loads the list of tasks in data/LeGoatData.txt on LeGoat startup.
-    * @since v0.1
-    */
-    public void loadData(TaskHandler taskHandler) {
+     * <p>Loads the list of tasks in data/LeGoatData.txt on LeGoat startup.
+     * @since v0.1
+     */
+    public void loadData(Parser taskHandler) {
         try {
             this.savedPath = new File("data/LeGoatData.txt");
             if (savedPath.exists()) {
@@ -75,17 +76,17 @@ public class DataHandler {
                         case DEADLINE -> {
                             assert lineItems.length == 4 : "There must only be 4 fields";
                             Deadline d = new Deadline(lineItems[2], TaskType.DEADLINE, taskStatus, lineItems[3]);
-                            taskHandler.tasks.add(d);
+                            taskHandler.getTasks().add(d);
                         }
                         case EVENT -> {
                             assert lineItems.length == 5 : "There must only be 5 fields";
                             Event e = new Event(lineItems[2], TaskType.EVENT, taskStatus, lineItems[3], lineItems[4]);
-                            taskHandler.tasks.add(e);
+                            taskHandler.getTasks().add(e);
                         }
                         default -> {
                             assert lineItems.length == 3 : "There must only be 3 fields";
                             Task t = new Task(lineItems[2], TaskType.TODO, taskStatus);
-                            taskHandler.tasks.add(t);
+                            taskHandler.getTasks().add(t);
                         }
                         }
                     }
